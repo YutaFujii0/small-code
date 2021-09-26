@@ -1,0 +1,18 @@
+== disasm: #<ISeq:<compiled>@<compiled>:1 (1,0)-(5,3)> (catch: FALSE)
+0000 putspecialobject             1                                   (   2)[Li]
+0002 putobject                    :add
+0004 putiseq                      add
+0006 opt_send_without_block       <callinfo!mid:core#define_method, argc:2, ARGS_SIMPLE>, <callcache>
+0009 leave
+
+== disasm: #<ISeq:add@<compiled>:2 (2,0)-(5,3)> (catch: FALSE)
+local table (size: 1, argc: 1 [opts: 0, rest: -1, post: 0, block: -1, kw: -1@-1, kwrest: -1])
+[ 1] x@0<Arg>
+0000 putobject                    2                                   (   4)[LiCa]
+0002 putobject                    3
+0004 putobject                    5
+0006 opt_mult                     <callinfo!mid:*, argc:1, ARGS_SIMPLE>, <callcache>
+0009 opt_plus                     <callinfo!mid:+, argc:1, ARGS_SIMPLE>, <callcache>
+0012 putobject_INT2FIX_1_
+0013 opt_minus                    <callinfo!mid:-, argc:1, ARGS_SIMPLE>, <callcache>
+0016 leave                                                            (   5)[Re]
