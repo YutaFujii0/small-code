@@ -1,8 +1,9 @@
 # Zero Cost Abstraction
 
-
-
-
+What does this mean?
+- You can add abstractions without affecting runtime performance
+- improve code quality and readability without any runtime performance cost
+- No longer have to trade off between maintainability and performance
 
 # example
 
@@ -17,7 +18,7 @@ So, compiler would optimize this.
 
 # Tips
 
-how to write output to assenbly code
+how to write output to assenbly code|[stackoverflow](https://stackoverflow.com/questions/39219961/how-to-get-assembly-output-from-building-with-cargo)
 
 ```bash
 cargo rustc -- --emit asm
@@ -25,9 +26,58 @@ cargo rustc -- --emit asm
 # for release mode: I recommend this
 cargo rustc --release -- --emit asm
 
+# --emit mir (rust intermediate representation)
+# --emit llvm-ir (llvm intermediate representation)
+# --emit llvm-bc (llvm byte code)
+# --emit asm (assembly)
 ```
 
+
+Another way, with [cargo-binutils](https://github.com/rust-embedded/cargo-binutils) installed.
+
+use cargo objdump
+```bash
+# installation
+$ cargo install cargo-binutils
+$ rustup component add llvm-tools-preview
+
+# disassemble a binary
+$ cargo objdump --release -- --disassemble --no-show-raw-insn
+```
+
+## Reading disassembly code
+general purpose registers
+rax: accumulator
+rbx: base
+rcx: counter
+rdx: data
+
+pointers/indexes
+rsi: register stack index
+rdi: register destination index
+rbp: base pointer
+rsp: source pointer
+
+control pointer
+rip: instruction pointer
+
+>The first four registers rax, rbx, rcx, and rdx, are general purpose registers accumulator, base, counter and data respectively. These registers can be used for a whole host of things, however, in this case, they are used as temporary variables for the CPU, when executing machine code.
+
+>The next four registers rsi, rdi, rbp and rsp are also general purpose, better known as pointers and indexes, the registers above stand for stack index, destination index, base pointer and source pointer, which are used for storing addresses that points to location in memory.
+
+>The rip register is the instruction pointer and will keep track of what the CPU is reading. It is an important register to concentrate on while debugging, as it is essentially the control pointer. The example above shows the CPU is currently pointing at memory address 0x4004f8.
+
+>The final set of eflags registers contain several big flags and are used for comparison and memory segmentation.
+
+https://perspectiverisk.com/intro-to-basic-disassembly-reverse-engineering/
 
 ## materials
 * An introduction to structs, traits, and zero-cost abstractions by Tim McLean - Rust KW Meetup
 https://www.youtube.com/watch?v=Sn3JklPAVLk&t=237s
+
+* When zero cost abstraction aren't zero cost
+https://blog.polybdenum.com/2021/08/09/when-zero-cost-abstractions-aren-t-zero-cost.html
+
+* The Embedded Rust Book
+https://doc.rust-lang.org/beta/embedded-book/static-guarantees/zero-cost-abstractions.html
+

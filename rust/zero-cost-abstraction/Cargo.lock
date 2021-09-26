@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "zero-cost-oh"
+name = "zero-cost-abstraction"
 version = "0.1.0"

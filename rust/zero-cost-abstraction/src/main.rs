@@ -1,8 +1,17 @@
+#![allow(dead_code)]
+
+mod example;
+mod example2;
+
 fn main() {
-    let x = 16;
-    println!("Result: {}", add(x));
+    // example2();
 }
 
-fn add(x: i32) -> i32 {
-    x + 2 - 3 * 5 - x
+fn example() {
+    example::do_stuff();
+}
+
+fn example2() {
+    let x = 16;
+    println!("Result: {}", example2::add(x));
 }
