@@ -4,4 +4,4 @@ p 'hello world'
 
 RUBY
 
-p RubyVM::InstructionSequence.new(code).disasm
+puts RubyVM::InstructionSequence.new(code).disasm
