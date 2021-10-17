@@ -92,12 +92,12 @@ _main:
 	.cfi_startproc  :beginning of a function
 	pushq	%rbp    :push source(rbp) to stack
 	.cfi_def_cfa_offset 16
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register %rbp
-	subq	$16, %rsp
-	movq	%rsi, %rcx
-	movslq	%edi, %rdx
+	.cfi_offset %rbp, -16 :save the preveous value of register(%rbp) to offset from CFA
+	movq	%rsp, %rbp :move source to base pointer(rsp to rbp)
+	.cfi_def_cfa_register %rbp  :offset remains the same, 
+	subq	$16, %rsp  :subtract 16 from rsp, what's in rsp here?
+	movq	%rsi, %rcx :move stack index to rcx
+	movslq	%edi, %rdx  :3bytes of 8byte register moved to data
 	leaq	__ZN21zero_cost_abstraction4main17h2402699a3191719cE(%rip), %rax
 	movq	%rax, -8(%rbp)
 	leaq	l___unnamed_1(%rip), %rsi
