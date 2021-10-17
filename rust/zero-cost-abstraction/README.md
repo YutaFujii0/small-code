@@ -71,6 +71,46 @@ rip: instruction pointer
 
 https://perspectiverisk.com/intro-to-basic-disassembly-reverse-engineering/
 
+
+## Assembly x86
+
+```rust
+fn main() {
+    // example2();
+    example();
+}
+
+fn example() {
+    // println!("{}", example::do_stuff(3.0));
+    println!("{}", 6.0);
+}
+```
+
+results in
+```asm
+_main:
+	.cfi_startproc  :beginning of a function
+	pushq	%rbp    :push source(rbp) to stack
+	.cfi_def_cfa_offset 16
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
+	movq	%rsi, %rcx
+	movslq	%edi, %rdx
+	leaq	__ZN21zero_cost_abstraction4main17h2402699a3191719cE(%rip), %rax
+	movq	%rax, -8(%rbp)
+	leaq	l___unnamed_1(%rip), %rsi
+	leaq	-8(%rbp), %rdi
+	callq	__ZN3std2rt19lang_start_internal17h5f9b030f0a63c040E
+	addq	$16, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+```
+
+
 ## materials
 * An introduction to structs, traits, and zero-cost abstractions by Tim McLean - Rust KW Meetup
 https://www.youtube.com/watch?v=Sn3JklPAVLk&t=237s
@@ -81,3 +121,6 @@ https://blog.polybdenum.com/2021/08/09/when-zero-cost-abstractions-aren-t-zero-c
 * The Embedded Rust Book
 https://doc.rust-lang.org/beta/embedded-book/static-guarantees/zero-cost-abstractions.html
 
+
+* Oracle Solaris x86 assembly language syntax(some of them may be different from macOSX)
+https://docs.oracle.com/cd/E37838_01/html/E61064/eoiyg.html
