@@ -1,4 +1,4 @@
-# 1324, 1350
+# https://leetcode.com/problems/longest-common-prefix/
 # strs has at least one string(if that is the case, that string is the answer)
 # there's no assurrance strs are in alphabetical order
 # given the sorted strs,  can I do this easily? no it doesn't matter
@@ -6,7 +6,7 @@
 
 
 # solution
-# sort elements: time complexity O(NlogN), space complexitiy: O(N) because we need an extra array
+# sort elements: time complexity O(NlogN), space complexitiy: O(NlogN) since we use recurrsive calls
 # compare first and last ones and take prefix both have in common
 
 import math
