@@ -7,7 +7,7 @@ use std::{fs::File, io::Read};
 use regex::Regex;
 use std::rc::Rc;
 
-const EDGE_PATH: &str = "./edges.txt";
+const EDGE_PATH: &str = "./dataset.txt";
 const MAX_NODE: u32 = 875714;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
