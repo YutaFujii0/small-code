@@ -8,7 +8,12 @@
 # solution
 # sort elements: time complexity O(NlogN), space complexitiy: O(NlogN) since we use recurrsive calls
 # compare first and last ones and take prefix both have in common
-
+for i in range(len(s)):
+    if s[i] in ["(", "[", "{"]:
+        stack.append(s[i])
+    elif s[i] in pop_map:
+        if stack.pop() != pop_map[s[i]]:
+            print("false")
 import math
 
 class Solution:
