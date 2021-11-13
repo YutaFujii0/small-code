@@ -14,16 +14,14 @@ const MAX_NODE: u32 = 9;
 // const MAX_NODE: u32 = 875714;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("Hello, world!");
-    let edges = Edges::new();
-    let mut edges_rev = Edges::new();
+    let mut edges = Edges::new();
+    let edges_rev = Edges::new();
     let nodes = Nodes::new();
-    let graph = Graph { nodes: RefCell::new(nodes), edges: RefCell::new(edges) };
+    let mut graph = Graph { nodes: RefCell::new(nodes), edges: RefCell::new(edges_rev) };
     // parse edges.txt
     let mut contents = String::new();
     let mut file = File::open(EDGE_PATH)?;
     file.read_to_string(&mut contents)?;
-    // println!("{}", contents);
 
     for i in 1..MAX_NODE + 1 {
         let node = Node {
@@ -42,13 +40,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let nodes = graph.nodes.borrow();
         let node_from = Rc::new(nodes.find(caps["from"].parse::<usize>().unwrap()));
         let node_to = Rc::new(nodes.find(caps["to"].parse::<usize>().unwrap()));
-        graph.edges.borrow_mut().push(
+        edges.push(
             Edge {
                 from: Rc::downgrade(&node_from),
                 to: Rc::downgrade(&node_to),
             }
         );
-        edges_rev.push(
+        graph.edges.borrow_mut().push(
             Edge {
                 from: Rc::downgrade(&node_to),
                 to: Rc::downgrade(&node_from),
@@ -56,17 +54,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         );
     }
 
-    println!("{:?}", graph.edges.borrow().items.len());
-    println!("{:?}", edge_of(&graph.edges.borrow(), &graph.nodes.borrow().items[0].borrow()).len());
-    // two pass algorithm
-    // reverse edge
-    // dfs loop for Grev
     dfs_loop(&graph);
-    for n in &graph.nodes.borrow().items {
-        println!("{:?}", n);
-    }
-
-    // dfs loop for G
+    graph.edges = RefCell::new(edges);
+    graph.nodes.borrow().reset_explored();
+    dfs_2nd_loop(&graph);
+    // for n in &graph.nodes.borrow().items {
+    //     println!("{:?}-leader:{:?}", n, n.borrow().leader.upgrade().unwrap().borrow().id);
+    // }
 
     // count leader node
     Ok(())
@@ -94,8 +88,18 @@ impl Nodes {
         &self.items[index - 1]
     }
 
+    fn find_by_finishing_time(&self, index: usize) -> Option<&Rc<RefCell<Node>>> {
+        self.items.iter().find(|&el| el.borrow().finishing_time == index)
+    }
+
     fn push(&mut self, item: RefCell<Node>) {
         self.items.push(Rc::new(item));
+    }
+
+    fn reset_explored(&self) {
+        for node in &self.items {
+            node.borrow_mut().explored = false;
+        }
     }
 }
 
@@ -139,6 +143,24 @@ fn dfs_loop(graph: &Graph) {
     }
 }
 
+fn dfs_2nd_loop(graph: &Graph) {
+    let mut t: usize = 0;
+    // let mut s: Option<Rc<Node>>  = None;
+
+    for i in 0..MAX_NODE {
+        let nodes = graph.nodes.borrow();
+        let target = nodes.find_by_finishing_time((MAX_NODE - i) as usize);
+        match target {
+            Some(node) => {
+                if node.borrow().explored == false {
+                    dfs(graph, &node, &node, &mut t);
+                }
+            },
+            None => (),
+        }
+    }
+}
+
 fn dfs(graph: &Graph, target: &Rc<RefCell<Node>>, leader: &Rc<RefCell<Node>>, finishing_time: &mut usize) {
     target.borrow_mut().explored = true;
     target.borrow_mut().leader = Rc::downgrade(leader);
@@ -151,7 +173,6 @@ fn dfs(graph: &Graph, target: &Rc<RefCell<Node>>, leader: &Rc<RefCell<Node>>, fi
     for edge in edges_connected {
         let target= edge.to.upgrade().unwrap();
         if target.borrow().explored == false {
-            // s = Some(target);
             dfs(graph, &target, leader, finishing_time);
         }
     }
