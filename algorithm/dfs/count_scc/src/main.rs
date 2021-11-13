@@ -5,16 +5,20 @@
 
 use std::{fs::File, io::Read};
 use regex::Regex;
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
+use std::cell::RefCell;
 
-const EDGE_PATH: &str = "./dataset.txt";
-const MAX_NODE: u32 = 875714;
+const EDGE_PATH: &str = "./dataset_simple.txt";
+const MAX_NODE: u32 = 9;
+// const EDGE_PATH: &str = "./dataset.txt";
+// const MAX_NODE: u32 = 875714;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Hello, world!");
-    let mut edges = Edges::new();
+    let edges = Edges::new();
     let mut edges_rev = Edges::new();
-    let mut nodes = Nodes::new();
+    let nodes = Nodes::new();
+    let graph = Graph { nodes: RefCell::new(nodes), edges: RefCell::new(edges) };
     // parse edges.txt
     let mut contents = String::new();
     let mut file = File::open(EDGE_PATH)?;
@@ -24,38 +28,43 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     for i in 1..MAX_NODE + 1 {
         let node = Node {
             id: i,
-            leader: None,
+            leader: Weak::new(),
             finishing_time: 0,
-            explored: false
+            explored: false,
         };
-        nodes.push(node);
+        graph.nodes.borrow_mut().push(RefCell::new(node));
     }
     // create edges, with creation of nodes if neccesary
     let re = Regex::new(r"(?m)^(?P<from>\d+)\s(?P<to>\d+)").expect("Invalid Regex");
 
     // let mut edges = Vec<Edge>;
     for caps in re.captures_iter(&contents) {
-        let node_from = nodes.find(caps["from"].parse::<usize>().unwrap());
-        let node_to = nodes.find(caps["to"].parse::<usize>().unwrap());
-        edges.push(
+        let nodes = graph.nodes.borrow();
+        let node_from = Rc::new(nodes.find(caps["from"].parse::<usize>().unwrap()));
+        let node_to = Rc::new(nodes.find(caps["to"].parse::<usize>().unwrap()));
+        graph.edges.borrow_mut().push(
             Edge {
-                from: Rc::clone(node_from),
-                to: Rc::clone(node_to),
+                from: Rc::downgrade(&node_from),
+                to: Rc::downgrade(&node_to),
             }
         );
         edges_rev.push(
             Edge {
-                from: Rc::clone(node_to),
-                to: Rc::clone(node_from),
+                from: Rc::downgrade(&node_to),
+                to: Rc::downgrade(&node_from),
             }
         );
     }
 
-    println!("{:?}", edges.items.len());
-    println!("{:?}", edge_of(&edges, &nodes.items[0]).len());
+    println!("{:?}", graph.edges.borrow().items.len());
+    println!("{:?}", edge_of(&graph.edges.borrow(), &graph.nodes.borrow().items[0].borrow()).len());
     // two pass algorithm
     // reverse edge
     // dfs loop for Grev
+    dfs_loop(&graph);
+    for n in &graph.nodes.borrow().items {
+        println!("{:?}", n);
+    }
 
     // dfs loop for G
 
@@ -67,14 +76,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 #[derive(Debug)]
 struct Node {
     id: u32,
-    leader: Option<Rc<Node>>,
+    leader: Weak<RefCell<Node>>,
     finishing_time: usize,
     explored: bool,
 }
 
-
 struct Nodes{
-    items: Vec<Rc<Node>>
+    items: Vec<Rc<RefCell<Node>>>
 }
 
 impl Nodes {
@@ -82,23 +90,28 @@ impl Nodes {
         Nodes { items: vec![] }
     }
 
-    fn find(&self, index: usize) -> &Rc<Node> {
+    fn find(&self, index: usize) -> &Rc<RefCell<Node>> {
         &self.items[index - 1]
     }
 
-    fn push(&mut self, item: Node) {
+    fn push(&mut self, item: RefCell<Node>) {
         self.items.push(Rc::new(item));
     }
 }
 
 #[derive(Debug)]
 struct Edge {
-    from: Rc<Node>,
-    to: Rc<Node>,
+    from: Weak<RefCell<Node>>,
+    to: Weak<RefCell<Node>>,
 }
 
 struct Edges {
     items: Vec<Edge>
+}
+
+struct Graph {
+    nodes: RefCell<Nodes>,
+    edges: RefCell<Edges>,
 }
 
 impl Edges {
@@ -111,32 +124,44 @@ impl Edges {
     }
 }
 
-// fn dfs_loop(graph: Nodes) {
-//     let mut t: usize = 0;
-//     let mut s: Option<Rc<Node>>  = None;
+fn dfs_loop(graph: &Graph) {
+    let mut t: usize = 0;
+    // let mut s: Option<Rc<Node>>  = None;
 
-//     for i in 0..MAX_NODE {
-//         let target = graph.find((MAX_NODE - i) as usize);
-//         if target.explored == false {
-//             s = Some(target);
-//             dfs(graph, &mut target, target, t);
-//         }
-//     }
-// }
+    for i in 0..MAX_NODE {
+        let nodes = graph.nodes.borrow();
+        let target = nodes.find((MAX_NODE - i) as usize);
+        // target.borrow_mut().explored = true;
+        if target.borrow().explored == false {
+            // s = Some(target);
+            dfs(graph, &target, &target, &mut t);
+        }
+    }
+}
 
-// fn dfs(graph: Nodes, target: &mut Node, leader: &Node, finishing_time: usize) {
-//     target.explored = true;
-//     target.leader = Some(Box::new(leader));
+fn dfs(graph: &Graph, target: &Rc<RefCell<Node>>, leader: &Rc<RefCell<Node>>, finishing_time: &mut usize) {
+    target.borrow_mut().explored = true;
+    target.borrow_mut().leader = Rc::downgrade(leader);
 
-//     // for each edge
-//     // dfs(graph, node)
-//     finishing_time += 1;
-//     target.finishing_time = finishing_time;
-// }
+    // for each edge
+    // dfs(graph, node)
+    let edges = graph.edges.borrow();
+    let edges_connected = edge_of(&edges, &target.borrow());
+
+    for edge in edges_connected {
+        let target= edge.to.upgrade().unwrap();
+        if target.borrow().explored == false {
+            // s = Some(target);
+            dfs(graph, &target, leader, finishing_time);
+        }
+    }
+    *finishing_time += 1;
+    target.borrow_mut().finishing_time = *finishing_time;
+}
 
 fn edge_of<'a>(edges: &'a Edges, node: &Node) -> Vec<&'a Edge> {
     edges.items
         .iter()
-        .filter(|&edge| edge.from.id == node.id)
+        .filter(|&edge| edge.from.upgrade().unwrap().borrow().id == node.id)
         .collect::<Vec<&Edge>>()
 }
