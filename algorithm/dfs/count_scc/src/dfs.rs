@@ -2,7 +2,8 @@ use std::collections::HashMap;
 
 use super::node::*;
 
-const MAX_NODE: usize = 9;
+// const MAX_NODE: usize = 9;
+const MAX_NODE: usize = 875714;
 
 pub fn dfs_loop_first(nodes: &Nodes) -> HashMap::<usize, usize> {
     let mut t: usize = 0;
@@ -54,6 +55,7 @@ fn dfs(
     exploreds: &mut HashMap<usize, bool>,
     finishing_times: &mut HashMap<usize, usize>,
 ) {
+    println!("dfs loop for target{:?}", target);
     exploreds.insert(target, true);
     let node = nodes.get(&target).unwrap();
     for edge in &node.borrow().edges {

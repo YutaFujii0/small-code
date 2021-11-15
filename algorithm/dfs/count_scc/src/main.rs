@@ -14,8 +14,8 @@ mod dfs;
 use node::*;
 use dfs::*;
 
-const EDGE_PATH: &str = "./dataset_simple.txt";
-// const EDGE_PATH: &str = "./dataset.txt";
+// const EDGE_PATH: &str = "./dataset_simple.txt";
+const EDGE_PATH: &str = "./dataset.txt";
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut nodes = Nodes::new();
