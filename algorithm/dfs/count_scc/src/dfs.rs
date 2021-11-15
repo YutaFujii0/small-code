@@ -4,7 +4,7 @@ use super::node::*;
 
 const MAX_NODE: usize = 9;
 
-pub fn dfs_loop(nodes: &Nodes) {
+pub fn dfs_loop_first(nodes: &Nodes) -> HashMap::<usize, usize> {
     let mut t: usize = 0;
     let mut exploreds = HashMap::<usize, bool>::new();
     let mut finishing_times = HashMap::<usize, usize>::new();
@@ -23,26 +23,29 @@ pub fn dfs_loop(nodes: &Nodes) {
         }
     }
 
-    println!("Finishing times {:?}", finishing_times);
+    finishing_times
 }
 
-// fn dfs_2nd_loop(graph: &Graph) {
-//   let mut t: usize = 0;
-//   // let mut s: Option<Rc<Node>>  = None;
+pub fn dfs_loop_second(nodes: &Nodes, finishing_times: &HashMap::<usize, usize>) -> HashMap::<usize, usize> {
+    let mut exploreds = HashMap::<usize, bool>::new();
+    let mut leaders = HashMap::<usize, usize>::new();
 
-//   for i in 0..MAX_NODE {
-//       let nodes = graph.nodes.borrow();
-//       let target = nodes.find_by_finishing_time((MAX_NODE - i) as usize);
-//       match target {
-//           Some(node) => {
-//               if node.borrow().explored == false {
-//                   dfs(graph, &node, &node, &mut t);
-//               }
-//           },
-//           None => (),
-//       }
-//   }
-// }
+    for i in 0..MAX_NODE {
+        let index = finishing_times.get(&(MAX_NODE - i)).unwrap();
+        let explored = exploreds.entry(*index).or_insert(false);
+        if *explored == false {
+            dfs_second(
+                nodes,
+                *index,
+                *index,
+                &mut exploreds,
+                &mut leaders,
+            );
+        }
+    }
+
+    leaders
+}
 
 fn dfs(
     nodes: &Nodes,
@@ -67,5 +70,30 @@ fn dfs(
         }
     }
     *finishing_time += 1;
-    finishing_times.insert(target, *finishing_time);
+    finishing_times.insert(*finishing_time, target);
+}
+
+fn dfs_second(
+    nodes: &Nodes,
+    target: usize,
+    leader: usize,
+    exploreds: &mut HashMap<usize, bool>,
+    leaders: &mut HashMap<usize, usize>,
+) {
+    exploreds.insert(target, true);
+    *leaders.entry(leader).or_insert(0) += 1;
+    let node = nodes.get(&target).unwrap();
+    for edge in &node.borrow().edges {
+        let index = edge.upgrade().unwrap().borrow().id;
+        let explored = exploreds.entry(index).or_insert(false);
+        if *explored == false {
+            dfs_second(
+                nodes,
+                index,
+                leader,
+                exploreds,
+                leaders
+            );
+        }
+    }
 }
