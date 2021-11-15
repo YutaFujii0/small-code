@@ -1,19 +1,30 @@
+use std::collections::HashMap;
 
+use super::node::*;
 
-// fn dfs_loop(graph: &Graph) {
-//   let mut t: usize = 0;
-//   // let mut s: Option<Rc<Node>>  = None;
+const MAX_NODE: usize = 9;
 
-//   for i in 0..MAX_NODE {
-//       let nodes = graph.nodes.borrow();
-//       let target = nodes.find((MAX_NODE - i) as usize);
-//       // target.borrow_mut().explored = true;
-//       if target.borrow().explored == false {
-//           // s = Some(target);
-//           dfs(graph, &target, &target, &mut t);
-//       }
-//   }
-// }
+pub fn dfs_loop(nodes: &Nodes) {
+    let mut t: usize = 0;
+    let mut exploreds = HashMap::<usize, bool>::new();
+    let mut finishing_times = HashMap::<usize, usize>::new();
+
+    for i in 0..MAX_NODE {
+        let index = MAX_NODE - i;
+        let explored = exploreds.entry(index).or_insert(false);
+        if *explored == false {
+            dfs(
+                nodes,
+                index,
+                &mut t,
+                &mut exploreds,
+                &mut finishing_times,
+            );
+        }
+    }
+
+    println!("Finishing times {:?}", finishing_times);
+}
 
 // fn dfs_2nd_loop(graph: &Graph) {
 //   let mut t: usize = 0;
@@ -33,21 +44,28 @@
 //   }
 // }
 
-// fn dfs(graph: &Graph, target: &Rc<RefCell<Node>>, leader: &Rc<RefCell<Node>>, finishing_time: &mut usize) {
-//   target.borrow_mut().explored = true;
-//   target.borrow_mut().leader = Rc::downgrade(leader);
-
-//   // for each edge
-//   // dfs(graph, node)
-//   let edges = graph.edges.borrow();
-//   let edges_connected = edge_of(&edges, &target.borrow());
-
-//   for edge in edges_connected {
-//       let target= edge.to.upgrade().unwrap();
-//       if target.borrow().explored == false {
-//           dfs(graph, &target, leader, finishing_time);
-//       }
-//   }
-//   *finishing_time += 1;
-//   target.borrow_mut().finishing_time = *finishing_time;
-// }
+fn dfs(
+    nodes: &Nodes,
+    target: usize,
+    finishing_time: &mut usize,
+    exploreds: &mut HashMap<usize, bool>,
+    finishing_times: &mut HashMap<usize, usize>,
+) {
+    exploreds.insert(target, true);
+    let node = nodes.get(&target).unwrap();
+    for edge in &node.borrow().edges {
+        let index = edge.upgrade().unwrap().borrow().id;
+        let explored = exploreds.entry(index).or_insert(false);
+        if *explored == false {
+            dfs(
+                nodes,
+                index,
+                finishing_time,
+                exploreds,
+                finishing_times
+            );
+        }
+    }
+    *finishing_time += 1;
+    finishing_times.insert(target, *finishing_time);
+}

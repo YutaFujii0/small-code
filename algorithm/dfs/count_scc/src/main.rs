@@ -5,14 +5,14 @@
 
 use std::{fs::File, io::Read};
 use regex::Regex;
-use std::rc::{Rc, Weak};
+use std::rc::{Rc};
 use std::cell::RefCell;
 
 mod node;
 mod dfs;
 
 use node::*;
-// use dfs::*;
+use dfs::*;
 
 const EDGE_PATH: &str = "./dataset_simple.txt";
 // const EDGE_PATH: &str = "./dataset.txt";
@@ -33,7 +33,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             if !nodes.contains_key(&to_id) {
                 nodes.insert(
                     to_id,
-                    Node::new(),
+                    Node::new(to_id),
                 );
             }
             let edge_to = nodes.get(&to_id).unwrap();
@@ -45,13 +45,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             if !nodes.contains_key(&to_id) {
                 nodes.insert(
                     to_id,
-                    Node::new(),
+                    Node::new(to_id),
                 );
             }
             let edge_to = nodes.get(&to_id).unwrap();
             // let e = Rc::downgrade(&edge_to.upgrade().unwrap());
             let e = Rc::downgrade(edge_to);
             let node = Node {
+                id: from_id,
                 edges: vec![e],
             };
             nodes.insert(from_id, Rc::new(RefCell::new(node)));
@@ -59,7 +60,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     println!("{:?}", nodes);
-    // dfs_loop(&graph);
+    dfs_loop(&nodes);
     // graph.edges = RefCell::new(edges);
     // graph.nodes.borrow().reset_explored();
     // dfs_2nd_loop(&graph);

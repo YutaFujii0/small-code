@@ -10,11 +10,15 @@ pub struct Node {
     // pub leader: RefNode,
     // finishing_time: usize,
     // explored: bool,
+    pub id: usize,
     pub edges: Vec<Weak<RefCell<Node>>>,
 }
 
 impl Node {
-    pub fn new() -> RefNode {
-        Rc::new(RefCell::new(Node { edges: vec![] }))
+    pub fn new(id: usize) -> RefNode {
+        Rc::new(RefCell::new(Node {
+            id: id,
+            edges: vec![],
+        }))
     }
 }
