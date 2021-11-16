@@ -6,11 +6,11 @@
 # 4 -> 8
 
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 
 # set return array
@@ -25,12 +25,14 @@
 #       - do nothing
 # - push val to return array
 
+from typing import Optional, List
+
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         self.return_array = []
         self.traversal(root)
         return self.return_array
-    
+
     def traversal(self, node: Optional[TreeNode]):
         if node == None:
             return
@@ -39,8 +41,6 @@ class Solution:
         self.return_array.append(node.val)
         if node.right != None:
             self.traversal(node.right)
-        
-
 
 # space complexity: worst senario O(n), on average O(log n)
 # this is because every recursion traverse method is push on stack
