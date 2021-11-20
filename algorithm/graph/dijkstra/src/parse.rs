@@ -12,9 +12,10 @@ where P: AsRef<Path>
     Ok(io::BufReader::new(file).lines())
 }
 
-pub fn parse<T>(lines: io::Lines<T>) -> Result<(), Box<dyn Error>>
+pub fn parse<T>(lines: io::Lines<T>) -> Result<Vec<(usize, usize, usize)>, Box<dyn Error>>
 where T: BufRead
 {
+    let mut edges: Vec<(usize, usize, usize)> = vec![];
     let re = Regex::new(r"(?m)(?P<to>\d+),(?P<len>\d+)").expect("Invalid Regex");
     for line in lines {
         if let Ok(li) = line {
@@ -27,15 +28,10 @@ where T: BufRead
             for caps in re.captures_iter(&li) {
                 let node = caps["to"].parse::<usize>()?;
                 let length = caps["len"].parse::<usize>()?;
-                println!("node {:?}-{:?}, len {:?}", tail, node, length);
+                edges.push((tail, node, length));
+                // println!("node {:?}-{:?}, len {:?}", tail, node, length);
             }
         }
     }
-    Ok(())
-}
-
-#[allow(dead_code)]
-struct Edge {
-    nodes: (usize, usize),
-    length: usize,
+    Ok(edges)
 }

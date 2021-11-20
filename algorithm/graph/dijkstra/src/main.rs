@@ -1,15 +1,21 @@
 mod parse;
+mod graph;
 
 use parse::*;
+use graph::*;
 
 const FILEPATH: &str = "./dataset.txt";
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Hello, world!");
 
+    let edges: Vec<(usize, usize, usize)>;
     if let Ok(lines) = read_lines(FILEPATH) {
-        parse(lines)?;
+        edges = parse(lines)?;
+        let graph = Graph::new(edges);
+        graph.dijstra();
     }
+
     Ok(())
 }
 
