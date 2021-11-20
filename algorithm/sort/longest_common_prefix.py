@@ -1,19 +1,18 @@
 # https://leetcode.com/problems/longest-common-prefix/
-# strs has at least one string(if that is the case, that string is the answer)
-# there's no assurrance strs are in alphabetical order
-# given the sorted strs,  can I do this easily? no it doesn't matter
-# because what we need to do is answer prefix all elements in strs have in common
 
+# Solution
+# 1.Sort elements:
+#  - time complexity O(NlogN),
+#  - space complexitiy: O(NlogN) since we use recurrsive calls
+# 2. Compare first and last ones and take prefix both have in common
+# for i in range(len(s)):
+#     if s[i] in ["(", "[", "{"]:
+#         stack.append(s[i])
+#     elif s[i] in pop_map:
+#         if stack.pop() != pop_map[s[i]]:
+#             print("false")
 
-# solution
-# sort elements: time complexity O(NlogN), space complexitiy: O(NlogN) since we use recurrsive calls
-# compare first and last ones and take prefix both have in common
-for i in range(len(s)):
-    if s[i] in ["(", "[", "{"]:
-        stack.append(s[i])
-    elif s[i] in pop_map:
-        if stack.pop() != pop_map[s[i]]:
-            print("false")
+from typing import List
 import math
 
 class Solution:

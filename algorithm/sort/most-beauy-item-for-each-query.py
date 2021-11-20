@@ -1,12 +1,10 @@
+# WIP
 # given price i, return max beauty of those have price LESS THAN OR EQUAL TO i
 # to naively solve, even collect items of price <= i need to full scan O(n)
 # in total, O(items * queries) needed, which is not good
 # sort price hash
 # for each query:
 #   binary search the nearest price that is less than or equal to query
-#   
-
-# b tree structure
 
 import math
 
