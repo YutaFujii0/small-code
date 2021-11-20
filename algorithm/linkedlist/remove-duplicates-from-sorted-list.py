@@ -11,6 +11,8 @@ from typing import Optional
 #    latter.next = former(remove duplicates)
 #  former = former.next
 # return head
+# Time complexity: O(n)
+# Space complexity: O(1)
 
 # Definition for singly-linked list.
 class ListNode:
