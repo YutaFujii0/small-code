@@ -38,6 +38,7 @@ class Solution:
 # slow will be advanced one step each,
 # whereas fast moves more than one step
 # if both pointer points the same address, that means a cycle exists
+# Time complexity: O(n), Space complexity: O(1)
 class Solution2:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         slow = head

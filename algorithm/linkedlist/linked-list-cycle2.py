@@ -13,6 +13,7 @@ class ListNode:
 #  c: distance from loop-starting node to collision node
 # Thus,
 #  distance from head to loop-starting node = distance from collision node to loop-starting node
+# Time complexity: O(2n), Space complexity: O(1)
 class Solution:
     def detectCycle(self, head: ListNode) -> ListNode:
         slow = head
