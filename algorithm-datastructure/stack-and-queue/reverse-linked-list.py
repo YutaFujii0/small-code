@@ -50,14 +50,17 @@ class Solution:
 # Solution2 - recursion
 #  - sentinel = ListNode
 #  - sentinel -> (reverseList of head.next) -> head
+# Complexity:
+#  - time complexity: each recursion, O(1) of head connection + O(1) cursor move
+#  - total: O(n)
+#  - space complexity: O(n) but much heavier than iteration
 # class Solution:
 #     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
 #         if head is None or head.next is None:
 #             return head
+#         tmp = head.next
 #         new_head = self.reverseList(head.next)
 #         head.next = None
 #         cursor = new_head
-#         while cursor.next is not None:
-#             cursor = cursor.next
-#         cursor.next = head
+#         tmp.next = head
 #         return new_head
