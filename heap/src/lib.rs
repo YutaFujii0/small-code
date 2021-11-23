@@ -1,4 +1,20 @@
-struct HeapNode<T: Copy, F>
+/// Heap Data Structure
+///
+/// # Examples
+///
+/// ```
+/// fn compare(parent: &i32, child: &i32) -> bool {
+///     parent < child
+/// }
+///
+/// let mut heap = datastructures::HeapNode::new(compare);
+/// heap.insert(3);
+/// heap.insert(5);
+/// heap.insert(1);
+/// let poll = heap.poll();
+/// assert_eq!(5, poll.unwrap());
+/// ```
+pub struct HeapNode<T: Copy, F>
 where F: Fn(&T, &T) -> bool
 {
     items: Vec<T>,
@@ -6,24 +22,22 @@ where F: Fn(&T, &T) -> bool
     out_of_order: F,
 }
 
-#[allow(dead_code)]
 impl<T: Copy, F> HeapNode<T, F>
 where T: Copy, F: Fn(&T, &T) -> bool
 {
-    fn new(items: Vec<T>, out_of_order: F) -> Self {
-        let size = items.len();
-        HeapNode { items, size , out_of_order }
+    pub fn new(out_of_order: F) -> Self {
+        HeapNode { items: vec![], size: 0 , out_of_order }
     }
 
-    fn left_child_index(parent_index: usize) -> usize {
+    pub fn left_child_index(parent_index: usize) -> usize {
         parent_index * 2 + 1
     }
 
-    fn right_child_index(parent_index: usize) -> usize {
+    pub fn right_child_index(parent_index: usize) -> usize {
         parent_index * 2 + 2
     }
 
-    fn parent_index(child_index: usize) -> usize {
+    pub fn parent_index(child_index: usize) -> usize {
         (child_index - 1) / 2
     }
 
@@ -58,17 +72,17 @@ where T: Copy, F: Fn(&T, &T) -> bool
         self.items[index_two] = tmp;
     }
 
-    fn peak(&self) -> &T {
+    pub fn peak(&self) -> &T {
         &self.items[0]
     }
 
-    fn insert(&mut self, item: T) {
+    pub fn insert(&mut self, item: T) {
         self.items.push(item);
         self.size += 1;
         self.heapify_up();
     }
 
-    fn poll(&mut self) -> Option<T> {
+    pub fn poll(&mut self) -> Option<T> {
         if self.size == 0 {
             return None
         } else if self.size == 1 {
@@ -119,26 +133,3 @@ where T: Copy, F: Fn(&T, &T) -> bool
         }
     }
 }
-
-fn main() {
-    println!("Hello, world!");
-    let items = vec![5, 4, 2, 1];
-    let mut heap = HeapNode::new(items, compare);
-    heap.insert(8);
-    println!("heap state {:?}", heap.items);
-    heap.poll();
-    println!("heap state {:?}", heap.items);
-    heap.poll();
-    println!("heap state {:?}", heap.items);
-    heap.poll();
-    println!("heap state {:?}", heap.items);
-    heap.poll();
-    println!("heap state {:?}", heap.items);
-    heap.poll();
-    println!("heap state {:?}", heap.items);
-}
-
-fn compare(parent: &i32, child: &i32) -> bool {
-    parent < child
-}
-

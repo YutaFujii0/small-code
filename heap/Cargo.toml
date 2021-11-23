@@ -1,6 +1,8 @@
 [package]
-name = "heap"
+name = "datastructures"
+license = "MIT"
 version = "0.1.0"
+description = "A variety of data structures for learning purpose"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
