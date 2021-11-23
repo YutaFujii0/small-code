@@ -18,7 +18,7 @@ pub struct HeapNode<T: Copy, F>
 where F: Fn(&T, &T) -> bool
 {
     items: Vec<T>,
-    size: usize,
+    pub size: usize,
     out_of_order: F,
 }
 
