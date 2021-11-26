@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 # Heap structure
 # to keep track of kth LARGEST number among n,
 # set MIN heap that has only k element(and implement it with array)
