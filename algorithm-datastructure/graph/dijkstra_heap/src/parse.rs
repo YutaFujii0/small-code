@@ -20,7 +20,7 @@ where T: BufRead
     for line in lines {
         if let Ok(li) = line {
             let tail = Regex::new(r"(?m)\d+")
-                .unwrap()
+                .expect("Invalid Regex")
                 .find(&li)
                 .unwrap()
                 .as_str()
