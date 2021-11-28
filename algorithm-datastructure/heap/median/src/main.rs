@@ -36,7 +36,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 median_sum += smallers.peak().unwrap();
             }
         }
-        println!("{:?}", smallers.peak());
     }
     println!("Iteration finished. Module 10000 of the sum of medians is {:?}", median_sum % 10000);
     Ok(())
