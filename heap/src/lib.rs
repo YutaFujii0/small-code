@@ -72,8 +72,11 @@ where T: Copy, F: Fn(&T, &T) -> bool
         self.items[index_two] = tmp;
     }
 
-    pub fn peak(&self) -> &T {
-        &self.items[0]
+    pub fn peak(&self) -> Option<&T> {
+        if self.size == 0 {
+            return None
+        }
+        Some(&self.items[0])
     }
 
     pub fn insert(&mut self, item: T) {
@@ -89,7 +92,7 @@ where T: Copy, F: Fn(&T, &T) -> bool
             self.size = 0;
             return self.items.pop()
         }
-        let peak = *self.peak();
+        let peak = *self.peak()?;
         match self.items.pop() {
             Some(item) => self.items[0] = item,
             _ => (),
