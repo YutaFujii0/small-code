@@ -30,12 +30,12 @@ class Solution:
         self.traverse(root)
         return self.kth_val
 
-    def traverse(self, head: TreeNode):
-        if head.left:
-            self.traverse(head.left)
+    def traverse(self, head: Optional[TreeNode]):
+        if head is None:
+            return
+        self.traverse(head.left)
         self.count += 1
         if self.count == self.target:
             self.kth_val = head.val
             return
-        if head.right:
-            self.traverse(head.right)
+        self.traverse(head.right)
