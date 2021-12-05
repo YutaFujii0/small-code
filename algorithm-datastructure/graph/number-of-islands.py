@@ -31,24 +31,26 @@ class Solution:
     WATER = '0'
 
     def numIslands(self, grid: List[List[str]]) -> int:
+        n, m = len(grid), len(grid[0])
         self.explored = set()
         islands = 0
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
+
+        def traverse(grid, position: tuple[int, int]):
+            if position in self.explored:
+                return
+            self.explored.add(position)
+            i, j = position
+            if i < 0 or j < 0 or n <= i or m <= j or grid[i][j] == self.WATER:
+                return
+
+            traverse(grid, (i+1, j))
+            traverse(grid, (i, j+1))
+            traverse(grid, (i-1, j))
+            traverse(grid, (i, j-1))
+
+        for i in range(n):
+            for j in range(m):
                 if (i,j) not in self.explored and grid[i][j] == self.LAND:
-                    self.traverse(grid, (i,j))
+                    traverse(grid, (i,j))
                     islands += 1
         return islands
-
-    def traverse(self, grid, position: Tuple(int, int)):
-        if position in self.explored:
-            return
-        self.explored.add(position)
-        i, j = position
-        if i < 0 or j < 0 or len(grid) <= i or len(grid[0]) <= j or grid[i][j] == self.WATER:
-            return
-
-        self.traverse(grid, (i+1, j))
-        self.traverse(grid, (i, j+1))
-        self.traverse(grid, (i-1, j))
-        self.traverse(grid, (i, j-1))
