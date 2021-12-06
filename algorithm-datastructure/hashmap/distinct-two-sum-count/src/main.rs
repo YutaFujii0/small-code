@@ -1,34 +1,68 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::Path;
 use std::fs::File;
 use std::io::{self, BufRead};
+
+// 10000 to 10000
+// -1 to 1
+// x = 1 - y
+// x = 1.1 thdn y can be -0.1,-0.3,-0.5 ... to -1.1
+// if floor x, and push 1 - x into key, lookup should be ceil of y
+
+// O(n) * O(k) -> O(10^10)
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Distinct two sum count!");
     const FILE_PATH: &str = "dataset.txt";
     let nums = parse(FILE_PATH)?;
-    let mut one_hits = 0;
-    // println!("{:?}", nums);
-    for k in -10000i64..10001i64 {
-        let mut sub_sum = HashMap::new();
-        for num in &nums {
-            sub_sum.insert(k - num, 0);
-        }
-        let mut hits = 0;
-        for num in &nums {
-            if sub_sum.contains_key(&num) {
-                // println!("hit! {}", num);
-                hits += 1;
+
+    let mut sub_sum = HashMap::new();
+    for (index, num) in nums.iter().enumerate() {
+        let nega = (-1 * num) / 10000;
+        let value = sub_sum.entry(nega).or_insert(vec![]);
+        value.push((num, index));
+    }
+    let mut hits = HashMap::new();
+    for (index, num) in nums.iter().enumerate() {
+        let target = num / 10000;
+        if let Some(value) = sub_sum.get(&target) {
+            for (num_stored, index_stored) in value {
+                let sum = *num_stored + num;
+                if index != *index_stored && -10000 <= sum && sum <= 10000 {
+                    let hit = hits.entry(sum).or_insert(HashSet::new());
+                    match index > *index_stored {
+                        true => hit.insert(index),
+                        false => hit.insert(*index_stored),
+                    };
+                }
             }
-            if hits > 2 {
-                break;
+        }
+        if let Some(value) = sub_sum.get(&(target - 1)) {
+            for (num_stored, index_stored) in value {
+                let sum = *num_stored + num;
+                if index != *index_stored && -10000 <= sum && sum <= 10000 {
+                    let hit = hits.entry(sum).or_insert(HashSet::new());
+                    match index > *index_stored {
+                        true => hit.insert(index),
+                        false => hit.insert(*index_stored),
+                    };
+                }
             }
         }
-        if hits == 2 {
-            one_hits += 1;
+        if let Some(value) = sub_sum.get(&(target + 1)) {
+            for (num_stored, index_stored) in value {
+                let sum = *num_stored + num;
+                if index != *index_stored && -10000 <= sum && sum <= 10000 {
+                    let hit = hits.entry(sum).or_insert(HashSet::new());
+                    match index > *index_stored {
+                        true => hit.insert(index),
+                        false => hit.insert(*index_stored),
+                    };
+                }
+            }
         }
     }
-    println!("t such that has distinct pair of numbers are {}", one_hits);
+    println!("Hits length{:?}", hits.len());
     Ok(())
 }
 
