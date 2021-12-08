@@ -20,36 +20,34 @@ class Graph:
             self.nodes.append((word, []))
 
         for i in range(length):
-            tmp_dic = [(node, node[0][:length-i-1]+node[0][length-i:]) for node in self.nodes]
             tmp_hash = {}
-            for item in tmp_dic:
-                if item[1] in tmp_hash:
-                    tmp_hash[item[1]].append(item[0])
-                else:
-                    tmp_hash[item[1]] = [item[0]]
-            for key in tmp_hash:
-                for node in tmp_hash[key]:
-                    for connected_node in tmp_hash[key]:
+            # {'it': [<node>, <node>, <node>], 'og': [<node>, <node>, <node>], ... }
+            for node in self.nodes:
+                key = node[0][:length-i-1]+node[0][length-i:]
+                tmp_hash.setdefault(key, []).append(node)
+            for key, nodes in tmp_hash.items():
+                for node in nodes:
+                    for connected_node in nodes:
                         if node != connected_node:
                             node[1].append(connected_node)
 
     def traverse(self, endWord: str):
         explored = {}
         queue = [[self.nodes[0]]]
-        hops = 1
+        layer = 1
         while queue and queue[0]:
             nodes = queue.pop(0)
             next_iter = []
             for node in nodes:
                 if node[0] == endWord:
-                    return hops
+                    return layer
                 if node[0] in explored:
                     continue
-                explored[node[0]] = hops
+                explored[node[0]] = layer
                 next_iter += node[1]
-                
+
             queue.append(next_iter)
-            hops += 1
+            layer += 1
         return 0
 
 class Solution:
