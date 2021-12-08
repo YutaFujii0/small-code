@@ -37,11 +37,15 @@ class Graph:
                 merged += right
             return merged
 
-        dic1 = [(node, node[0][:length-1]) for node in self.nodes]
-        print(merge_sort(dic1))
-
-
+        for i in range(length):
+            tmp_dic = [(node, node[0][:length-i-1]+node[0][length-i:]) for node in self.nodes]
+            tmp_dic = merge_sort(tmp_dic)
+            for idx in range(len(tmp_dic) - 1):
+                if tmp_dic[idx][1] == tmp_dic[idx+1][1]:
+                    tmp_dic[idx][0][1].append(tmp_dic[idx+1][0])
+                    tmp_dic[idx+1][0][1].append(tmp_dic[idx][0])
+        print(self.nodes)
 
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        Graph(wordList)
+        Graph([beginWord] + wordList)
