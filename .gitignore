@@ -2,3 +2,4 @@
 **/target/
 **/dataset.txt
 **/.DS_Store
+**/__pycache__
