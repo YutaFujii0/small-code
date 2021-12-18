@@ -1,3 +1,6 @@
+# Problem description
+# https://drive.google.com/file/d/1RI5gOtfzPjXaVZ6mfPIJtP5MZc10ZzBi/view?usp=sharing
+
 # karatsuba's product algorithm
 # - aplit x to a * 10^n/2 + b
 # - aplit y to c * 10^n/2 + d
