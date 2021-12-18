@@ -31,3 +31,7 @@ template
 5 15 
 5 16 
 ```
+
+# Original Problem
+
+https://drive.google.com/file/d/1dIk8w0cSjZkdUS4beEot8212VT4m8LCQ/view?usp=sharing

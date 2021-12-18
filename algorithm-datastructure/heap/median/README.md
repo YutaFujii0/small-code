@@ -23,3 +23,7 @@ if k is even, then m_k is the (k/2)th smallest number among x_1,...,x_k.
 - until size(S) - size(L) is 0 or 1
   - rebalance(poll and insert)
 - return head of S
+
+# Original Problem
+
+https://drive.google.com/file/d/1Gs_TqLPjdTQQQzP9zJPccAVghP-3iwEI/view?usp=sharing
