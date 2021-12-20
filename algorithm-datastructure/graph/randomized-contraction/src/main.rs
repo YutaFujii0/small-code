@@ -5,20 +5,27 @@ use regex::Regex;
 use std::rc::Rc;
 use std::cell::RefCell;
 use rand::Rng;
+use std::collections::HashSet;
 
-const PATH: &str = "./dataset-sample.txt";
-const VERTICES_SIZE: usize = 4;
+// for demo purpose
+// const PATH: &str = "./dataset-sample.txt";
+// const VERTICES_SIZE: usize = 10;
+
+// actual dataset
+const PATH: &str = "./dataset.txt";
+const VERTICES_SIZE: usize = 200;
 type Vertex = Rc<u8>;
 type VertexPtr = Rc<RefCell<Rc<u8>>>;
 type Edge = (VertexPtr, VertexPtr);
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("Randomized Contraction!");
+    // println!("Randomized Contraction!");
     let mut edges: Vec<Edge> = vec![];
     let vertices: Vec<Vertex> = (1..VERTICES_SIZE+1).map(|i| Rc::new(i as u8)).collect();
     let vertex_ptrs: Vec<VertexPtr> = (0..VERTICES_SIZE)
         .map(|i| Rc::new(RefCell::new(Rc::clone(&vertices[i]))))
         .collect();
+    let mut contracted = HashSet::new();
     let lines = parse(PATH)?;
     let re = Regex::new(r"(?P<vertex>\d+)").expect("Invalid Regex");
     for line in lines {
@@ -39,19 +46,29 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     let mut vertices_size = vertices.len();
     let mut rng = rand::thread_rng();
-    while vertices_size > 2 {
+    'pop_edge_loop: while vertices_size > 2 {
         let (left, right) = edges.remove(rng.gen_range(0..edges.len()));
-        if left != right {
-            *right.borrow_mut() = Rc::clone(&*left.borrow());
+        if **left.borrow() != **right.borrow() {
+            if contracted.contains(&**right.borrow()) {
+                continue 'pop_edge_loop;
+            }
+            contracted.insert(**right.borrow());
+            for ptr in &vertex_ptrs
+                .iter()
+                .filter(|&v| *v.borrow() == *right.borrow())
+                .collect::<Vec<&VertexPtr>>()
+            {
+                *ptr.borrow_mut() = Rc::clone(&*left.borrow());
+            }
             vertices_size -= 1;
         }
     }
     let min_cut = edges
         .iter()
-        .filter(|&(left, right)| left != right)
+        .filter(|&(left, right)| **left.borrow() != **right.borrow())
         .collect::<Vec<&Edge>>()
         .len();
-    println!("min cut: {:?}", min_cut / 2);
+    println!("{:?}", min_cut / 2);
     Ok(())
 }
 
