@@ -1,3 +1,4 @@
+from typing import List
 # return its sum, not subarray itself
 # subarray must have at least one element
 # possible solution
