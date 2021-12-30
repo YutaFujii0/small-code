@@ -16,3 +16,4 @@
 # Resources
 
 - Jacob Sorber[Youtube](https://www.youtube.com/watch?v=SC8uWXmDJs4&list=PL9IEJIKnBJjG5H0ylFAzpzs9gSmW_eICB)
+- [Advanced Programming in the UNIX® Environment, Third Edition](http://www.apuebook.com/code3e.html)
