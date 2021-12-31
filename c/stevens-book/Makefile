@@ -2,7 +2,7 @@ ROOT=.
 PLATFORM=$(shell $(ROOT)/systype.sh)
 include $(ROOT)/Make.defines.$(PLATFORM)
 
-PROGS =	race-condition file-type file-description
+PROGS =	race-condition file-type file-description file-priviledge
 
 all:	$(PROGS)
 
