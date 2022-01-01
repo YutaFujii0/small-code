@@ -31,3 +31,67 @@ main(int argc, char *argv[])
 
     exit(0);
 }
+
+/*
+
+`rm` command is referred to as unlink, not remove:
+see how `nlink` value changes through touch, link, rm commands:
+
+$ touch tmp2
+$ ./file-description tmp2
+stat result:
+mode    33188
+ino     10558326
+dev     16777220
+rdev    0
+nlink   1
+uid     503
+gid     20
+size    0
+blksize 4096
+blocks  0
+
+$ link tmp2 tmp
+
+$ ./file-description tmp
+stat result:
+mode    33188
+ino     10558326
+dev     16777220
+rdev    0
+nlink   2
+uid     503
+gid     20
+size    0
+blksize 4096
+blocks  0
+
+$ ./file-description tmp2
+stat result:
+mode    33188
+ino     10558326
+dev     16777220
+rdev    0
+nlink   2
+uid     503
+gid     20
+size    0
+blksize 4096
+blocks  0
+
+$ rm tmp2
+
+$ ./file-description tmp
+stat result:
+mode    33188
+ino     10558326
+dev     16777220
+rdev    0
+nlink   1
+uid     503
+gid     20
+size    0
+blksize 4096
+blocks  0
+
+*/
