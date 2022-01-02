@@ -62,6 +62,40 @@ $ hyperfine --warmup 5 "./io-read < input"
   Range (min … max):     9.5 ms …  29.2 ms    158 runs
 ```
 
+### write vs printf
+
+- write is non buffered(precisely it's just kernel buffered, not in main memory)
+  - I/O occurs immediately
+- printf(standard I/O library) uses buffer
+  - if file desctipter points to STDOUT(terminal), new line will fire I/O
+  - if file descripter points to a file entry, I/O occurs at the end of the process
+
+```bash
+$ ./ps-fork
+# `printf` buffer string array and that fire I/O to the terminal before fork()
+
+$ ./ps-fork > tmp
+# `printf` buffer string array and that is copied by fork(), thus sentence is put twice
+```
+
+# Process
+
+### ppid
+
+- when child terminates before parent, it can be a zombie process
+- when parent terminates before child, ppid of child process become 1(init process)
+
+```bash
+$ ./ps-ppid
+before fork
+hello from child process
+pid = 45942, ppid = 45941
+hello from parent process
+hello from parent process-2
+#(here terminal returns)
+pid = 45950, ppid = 1
+```
+
 # Resources
 
 - Jacob Sorber[Youtube](https://www.youtube.com/watch?v=SC8uWXmDJs4&list=PL9IEJIKnBJjG5H0ylFAzpzs9gSmW_eICB)
