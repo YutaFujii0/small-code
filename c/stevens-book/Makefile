@@ -3,7 +3,8 @@ PLATFORM=$(shell $(ROOT)/systype.sh)
 include $(ROOT)/Make.defines.$(PLATFORM)
 
 PROGS =	race-condition file file-type file-description file-priviledge\
-	io-getc io-fgetc io-fgets io-buff io-read
+	io-getc io-fgetc io-fgets io-buff io-read\
+	ps-fork
 
 all:	$(PROGS)
 
