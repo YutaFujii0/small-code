@@ -96,6 +96,23 @@ hello from parent process-2
 pid = 45950, ppid = 1
 ```
 
+### Orphaned process group
+
+- a process whose parent terminates is called an orphan
+- even if such a situation happens, child process would remain running
+
+```bash
+$ echo "foo" > tmp
+
+$ ./ps-orphaned < tmp
+parent: pid = 58195, ppid = 7860, pgrp = 58195, tpgrp = -1
+child: pid = 58196, ppid = 58195, pgrp = 58195, tpgrp = -1
+SIGHUP received, pid = 58196
+child: pid = 58196, ppid = 1, pgrp = 58195, tpgrp = -1
+hello world%
+# you'll see read and write actually executed!
+```
+
 # Resources
 
 - Jacob Sorber[Youtube](https://www.youtube.com/watch?v=SC8uWXmDJs4&list=PL9IEJIKnBJjG5H0ylFAzpzs9gSmW_eICB)
