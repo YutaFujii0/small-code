@@ -38,3 +38,15 @@ class Solution:
         while stack:
             current_digit = current_digit ^ stack.pop()
         return current_digit
+
+
+class Solution2:
+    def kthGrammar(self, n: int, k: int) -> int:
+        if n == 1 and k == 1:
+            return 0
+        if k % 2 == 0:
+            x = self.kthGrammar(n-1, (k+1)//2)
+            return x ^ 1
+        if k % 2 == 1:
+            x = self.kthGrammar(n-1, (k+1)//2)
+            return x ^ 0
