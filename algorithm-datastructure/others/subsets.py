@@ -20,3 +20,10 @@ class Solution:
         for k in range(n + 1):
             backtrack()
         return output
+
+class Solution2:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        results = [[]]
+        for num in nums:
+            results += [items + [num] for items in results]
+        return results
