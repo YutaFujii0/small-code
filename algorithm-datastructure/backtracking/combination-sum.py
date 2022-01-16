@@ -22,20 +22,19 @@ from typing import List
 
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        def backtrack(startIndex: int, tmpCandidates: List[int]):
-            if sum(tmpCandidates) > target:
+        def backtrack(startIndex: int, tmpCandidates: List[int], target: int):
+            if target < 0:
                 return
-            elif sum(tmpCandidates) == target:
+            elif target == 0:
                 results.append(tmpCandidates[:])
                 return
             for j in range(startIndex, n):
                 tmpCandidates.append(candidates[j])
-                backtrack(j, tmpCandidates)
+                backtrack(j, tmpCandidates, target - candidates[j])
                 tmpCandidates.pop()
         results = []
         n = len(candidates)
-        # for i in range(n):
-        backtrack(0, [])
+        backtrack(0, [], target)
         return results
 
 
