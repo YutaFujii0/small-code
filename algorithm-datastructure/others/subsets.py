@@ -27,3 +27,13 @@ class Solution2:
         for num in nums:
             results += [items + [num] for items in results]
         return results
+
+class Solution3:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        results = []
+        n = len(nums)
+        for i in range(2**n, 2**(n+1)):
+            bitmask = bin(i)[3:]
+            child = [nums[i] for i in range(n) if bitmask[i] == '1']
+            results.append(child)
+        return results
