@@ -10,8 +10,15 @@ where
     let mut results = vec![];
     for line in BufReader::new(file).lines() {
         let line = line?;
-        results.push(line.as_str().replace(" ", ""));
+        let raw_num = line.as_str().replace(" ", "");
+        if valid(&raw_num) {
+            results.push(raw_num);
+        }
     }
 
     Ok(results)
+}
+
+fn valid(raw_num: &String) -> bool {
+    raw_num.len() == 24
 }

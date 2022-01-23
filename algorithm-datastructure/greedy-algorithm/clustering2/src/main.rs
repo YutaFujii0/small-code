@@ -19,10 +19,18 @@ fn count_nodes_of_length_within_2(raw_nodes: Vec<String>) -> usize {
     let nodes: HashSet<String> = HashSet::from_iter(raw_nodes.clone());
     let mut nodes_in_length: HashSet<String> = HashSet::new();
     let mut second_iterations: Vec<(String, String)> = vec![];
+    let mut new_cluster_index = 0usize;
     for node in raw_nodes {
         for i in 0..24 {
             let flipped = flip(&node, i);
             if nodes.contains(&flipped) {
+                match (
+                    nodes_in_length.contains(&flipped),
+                    nodes_in_length.contains(&node),
+                ) {
+                    (false, false) => new_cluster_index += 1,
+                    _ => (),
+                }
                 nodes_in_length.insert(node.clone());
                 nodes_in_length.insert(flipped);
             } else {
@@ -34,12 +42,25 @@ fn count_nodes_of_length_within_2(raw_nodes: Vec<String>) -> usize {
         for i in 0..24 {
             let flipped = flip(&middle_node, i);
             if nodes.contains(&flipped) && flipped != original_node {
+                match (
+                    nodes_in_length.contains(&flipped),
+                    nodes_in_length.contains(&original_node),
+                ) {
+                    (false, false) => new_cluster_index += 1,
+                    _ => (),
+                }
                 nodes_in_length.insert(original_node.clone());
                 nodes_in_length.insert(flipped);
             }
         }
     }
-    nodes.len() - nodes_in_length.len() + 1
+    println!(
+        "{}, {}, {}",
+        nodes.len(),
+        nodes_in_length.len(),
+        new_cluster_index
+    );
+    nodes.len() - nodes_in_length.len() + new_cluster_index
 }
 
 fn flip(bit_num: &String, i: usize) -> String {
