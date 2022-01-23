@@ -28,7 +28,20 @@ pub fn cluster(mut graph: Graph, k: usize) -> Result<(), Box<dyn std::error::Err
         union(cluster1, cluster2, &mut parent, &mut rank)?;
         num_of_clusters -= 1;
     }
-    println!("next closest distance is {:?}", graph.get(0).unwrap());
+
+    loop {
+        let edge = graph.pop_front().ok_or(ArgumentError)?;
+        let cluster1 = find_leader(edge.0, &parent)?;
+        let cluster2 = find_leader(edge.1, &parent)?;
+        if cluster1 != cluster2 {
+            println!(
+                "next closest distance is {:?}, edge({:?} {:?})parent{} and {}",
+                edge.2, edge.0, edge.1, cluster1, cluster2
+            );
+            break;
+        }
+    }
+
     Ok(())
 }
 
@@ -43,8 +56,12 @@ fn find_leader(mut x: usize, parent: &Parent) -> Result<usize, Box<dyn std::erro
     Ok(x)
 }
 
-fn union(s1: usize, s2: usize, parent: &mut Parent, rank: &mut Rank) -> Result<(), Box<dyn std::error::Error>>
-{
+fn union(
+    s1: usize,
+    s2: usize,
+    parent: &mut Parent,
+    rank: &mut Rank,
+) -> Result<(), Box<dyn std::error::Error>> {
     let rank1 = rank.get(&s1).ok_or(ArgumentError)?;
     let rank2 = rank.get(&s2).ok_or(ArgumentError)?;
     if rank1 == rank2 {

@@ -1,9 +1,9 @@
-mod parse;
 mod clustering;
 mod error;
+mod parse;
 
-use self::parse::*;
 use self::clustering::*;
+use self::parse::*;
 
 // const FILE_PATH: &str = "./dataset-sample.txt";
 const FILE_PATH: &str = "./dataset.txt";
