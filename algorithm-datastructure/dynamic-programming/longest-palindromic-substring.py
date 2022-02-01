@@ -20,22 +20,18 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         n = len(s)
-        dp = [[False] * n] * n
         self.longestPalindrome = (1, s[0])
         def palindrome(i,j):
             while True:
                 if i > 0 and j < n-1 and s[i-1] == s[j+1]:        
                     i -= 1
                     j += 1
-                    dp[i][i] = True
                 else:
                     break
             if j-i+1 > self.longestPalindrome[0]:
                 self.longestPalindrome = (j-i+1, s[i:j+1])
         for i in range(n):
-            dp[i][i] = True
             if i > 0 and s[i-1] == s[i]:
-                dp[i-1][i] = True
                 palindrome(i-1,i)
         for i in range(n):
             palindrome(i,i)
