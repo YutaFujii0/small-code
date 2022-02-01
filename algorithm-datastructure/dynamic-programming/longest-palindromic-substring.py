@@ -38,9 +38,5 @@ class Solution:
                 dp[i-1][i] = True
                 palindrome(i-1,i)
         for i in range(n):
-            if i < n-1 and s[i] == s[i+1]:
-                dp[i][i + 1] = True
-                palindrome(i,i+1)
-        for i in range(n):
             palindrome(i,i)
         return self.longestPalindrome[1]
