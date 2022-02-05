@@ -1,3 +1,4 @@
+from typing import List
 # [5,6,4,7] -> true
 # [5,6,1,2,3] -> true
 # naive solution, nC3 combinations, O(n^3) time complexity
