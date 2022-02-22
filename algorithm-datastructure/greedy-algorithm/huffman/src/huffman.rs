@@ -46,14 +46,17 @@ pub fn huffman(weights: Vec<u32>) -> Result<Node, Box<dyn std::error::Error>> {
         .collect::<Vec<CmpNode>>();
 
     let mut heap = BinaryHeap::from(weights);
-    let mut head = Cons(0, Box::new(Nil), Box::new(Nil));
+
     while heap.len() > 2 {
         let first = heap.pop().ok_or(ArgumentError)?;
         let second = heap.pop().ok_or(ArgumentError)?;
         let combined = Cons(0, Box::new(first.1), Box::new(second.1));
+        heap.push(CmpNode(first.0 + second.0, combined))
     }
     // println!("heap pop {:?}", );
-    
+    let first = heap.pop().ok_or(ArgumentError)?;
+    let second = heap.pop().ok_or(ArgumentError)?;
+    let head = Cons(0, Box::new(first.1), Box::new(second.1));
     Ok(head)
 }
 

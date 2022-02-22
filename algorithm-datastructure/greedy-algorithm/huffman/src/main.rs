@@ -11,6 +11,6 @@ fn main() {
     println!("Huffman's coding algorithm!");
     if let Ok(res) = parse(FILE_PATH) {
         println!("hi, {:?}", res);
-        huffman(res);
+        println!("{:?}", huffman(res));
     }
 }
