@@ -14,6 +14,7 @@ pub enum Node {
 
 impl PartialEq for Node {
     fn eq(&self, other: &Self) -> bool {
+        // TODO: FIX
         self == other
     }
 }
