@@ -6,7 +6,9 @@ use crate::dp::*;
 use crate::parse::*;
 
 const FILE_PATH: &str = "dataset.txt";
-const KNAPSACK_SIZE: usize = 10000;
+const KNAPSACK_SIZE: usize = 2000000;
+// const FILE_PATH: &str = "dataset-sample.txt";
+// const KNAPSACK_SIZE: usize = 10000;
 
 fn main() {
     println!("Knapsack problem!");
