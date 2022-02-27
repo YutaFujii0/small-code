@@ -24,3 +24,20 @@ pub fn optimal_bst(tree: Vec<f32>) -> f32 {
     }
     dp[0][n-1]
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test1() {
+        let tree = vec![0.05, 0.40, 0.08, 0.04, 0.1, 0.1, 0.23];
+        assert_eq!(optimal_bst(tree), 2.18);
+    }
+
+    #[test]
+    fn test2() {
+        let tree = vec![0.2, 0.05, 0.17, 0.1, 0.2, 0.03, 0.25];
+        assert_eq!(optimal_bst(tree), 2.23);
+    }
+}
