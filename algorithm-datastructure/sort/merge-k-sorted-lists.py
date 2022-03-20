@@ -28,3 +28,23 @@ class Solution:
             tmp.next = ListNode(num)
             tmp = tmp.next
         return head.next
+
+
+class Solution2:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        head = pointer = ListNode()
+        h = []
+        for i, l in enumerate(lists):
+            if l is None: continue
+            heappush(h, (l.val, i))
+            lists[i] = lists[i].next
+
+        while h:
+            val, i = heappop(h)
+            pointer.next = ListNode(val)
+            pointer = pointer.next
+            if lists[i]:
+                heappush(h, (lists[i].val, i))
+                lists[i] = lists[i].next
+
+        return head.next
