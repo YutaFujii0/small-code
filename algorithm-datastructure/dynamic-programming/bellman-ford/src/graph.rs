@@ -2,6 +2,7 @@ use super::errors::*;
 
 pub struct Graph {
     matrix: Vec<Vec<i32>>,
+    pub nodes: usize,
 }
 
 impl Graph {
@@ -26,7 +27,7 @@ impl Graph {
         for (from, to, cost) in edges {
             matrix[from - 1][to - 1] = cost;
         }
-        Graph { matrix }
+        Graph { matrix, nodes: n }
     }
 
     // pub fn add_node(&self) {

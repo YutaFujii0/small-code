@@ -10,12 +10,12 @@ use crate::parse::*;
 const FILE_PATH: &str = "g1.txt";
 
 fn main() {
-    println!("Hello, world!");
+    println!("Bellman Ford Algorithm!");
     if let Ok(ret) = parse(FILE_PATH) {
         // println!("{:?}", ret);
         let graph = Graph::new(ret);
-        println!("{:?}", graph.neighbors(1));
-        println!("{:?}", graph.inverse_neighbors(1));
-        bellman_ford(graph, 1);
+        // println!("{:?}", graph.neighbors(1));
+        // println!("{:?}", graph.inverse_neighbors(1));
+        println!("{:?}", bellman_ford(graph, 0));
     }
 }
