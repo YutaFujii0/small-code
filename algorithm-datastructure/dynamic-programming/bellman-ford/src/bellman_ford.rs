@@ -1,6 +1,6 @@
 use super::graph::Graph;
 
-pub fn bellman_ford(graph: Graph, source_index: usize) -> (Vec<i32>, bool) {
+pub fn bellman_ford(graph: &Graph, source_index: usize) -> (Vec<i32>, bool) {
     // cost_matrix[i hops limitation][destination]
     let mut cost_matrix = vec![vec![i32::MAX; graph.nodes]; graph.nodes];
     cost_matrix[0][source_index] = 0;
@@ -36,30 +36,30 @@ mod test {
     #[test]
     fn three_nodes_graph_source1() {
         let graph = Graph::new(vec![(1,2,10), (1,3,5), (2,3,-2)]);
-        assert_eq!(bellman_ford(graph, 0), (vec![0, 10, 5], true))
+        assert_eq!(bellman_ford(&graph, 0), (vec![0, 10, 5], true))
     }
 
     #[test]
     fn three_nodes_graph_source2() {
         let graph = Graph::new(vec![(1,2,10), (1,3,5), (2,3,-2)]);
-        assert_eq!(bellman_ford(graph, 1), (vec![i32::MAX, 0, -2], true))
+        assert_eq!(bellman_ford(&graph, 1), (vec![i32::MAX, 0, -2], true))
     }
 
     #[test]
     fn three_nodes_graph_source3() {
         let graph = Graph::new(vec![(1,2,10), (1,3,5), (2,3,-2)]);
-        assert_eq!(bellman_ford(graph, 2), (vec![i32::MAX, i32::MAX, 0], true))
+        assert_eq!(bellman_ford(&graph, 2), (vec![i32::MAX, i32::MAX, 0], true))
     }
 
     #[test]
     fn five_nodes_graph_source0() {
         let graph = Graph::new(vec![(1,2,2), (1,3,4), (2,3,1), (2,4,2), (3,5,4), (4,5,2)]);
-        assert_eq!(bellman_ford(graph, 0), (vec![0,2,3,4,6], true))
+        assert_eq!(bellman_ford(&graph, 0), (vec![0,2,3,4,6], true))
     }
 
     #[test]
     fn detect_negative_cost_cycle() {
         let graph = Graph::new(vec![(1,2,2), (1,3,4), (2,3,1), (2,4,2), (3,5,4), (5,2,-10)]);
-        assert_eq!(bellman_ford(graph, 0).1, false)
+        assert_eq!(bellman_ford(&graph, 0).1, false)
     }
 }

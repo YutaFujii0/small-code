@@ -38,6 +38,7 @@ impl Graph {
 
     // }
 
+    #[allow(dead_code)]
     pub fn neighbors(&self, index: usize) -> Vec<(usize, i32)> {
         self.matrix[index]
             .iter()
