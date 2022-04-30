@@ -62,6 +62,7 @@ pub fn tsp(graph: Vec<(f32, f32)>) -> i32 {
         .min_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap_or(Ordering::Equal))
         .unwrap_or_else(|| (0, f32::MAX));
     let c_ji = ((graph[min.0].0 - graph[0].0).powi(2) + (graph[min.0].1 - graph[0].1).powi(2)).sqrt();
+    println!("raw result: {}", (min.1 + c_ji));
     (min.1 + c_ji).floor() as i32
 }
 
@@ -89,9 +90,53 @@ mod test {
     }
 
     #[test]
+    fn four_nodes1() {
+        let graph = vec![(0.0, 0.0), (10.0, 0.0), (0.0, 10.0), (10.0, 10.0)];
+        assert_eq!(tsp(graph), 40)
+    }
+
+    #[test]
     fn nodes_in_the_same_line() {
         let graph = vec![(0.0, 0.0), (10.0, 0.0), (11.1, 0.0)];
         assert_eq!(tsp(graph), 22)
+    }
+
+    #[test]
+    fn complex_graph() {
+        let graph = vec![
+            (0.0, 0.0), (10.0, 0.0), (0.0, 10.0), (10.0, 10.0), (10.0, -10.0), (0.0, -10.0), (-10.0, 0.0)
+        ];
+        assert_eq!(tsp(graph), 74)
+    }
+
+    #[test]
+    fn complex_graph2() {
+        let graph = vec![
+            (0.0000000549963, 0.00000000985808),
+            (-28.8733,-0.0000000797739),
+            (-79.2916, -21.4033),
+            (-14.6577, -43.3896),
+            (-64.7473,  21.8982),
+            (-29.0585, -43.2167),
+            (-72.0785, 0.181581),
+            (-36.0366, -21.6135),
+            (-50.4808,  7.37447),
+            (-50.5859, -21.5882),
+            (-0.135819, -28.7293),
+            (-65.0866, -36.0625),
+            (-21.4983,  7.31942),
+            (-57.5687, -43.2506),
+            (-43.0700,  14.5548)
+        ];
+        assert_eq!(tsp(graph), 284)
+    }
+
+    #[test]
+    fn round_down() {
+        let graph = vec![
+            (0.0, 0.0), (10.0, 10.0), (20.0, 20.0), (30.0, 30.0), (40.0, 40.0)
+        ];
+        assert_eq!(tsp(graph), 113)
     }
 }
 

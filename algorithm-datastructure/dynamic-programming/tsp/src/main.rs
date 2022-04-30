@@ -12,6 +12,6 @@ fn main() {
 
     if let Ok(res) = parse(FILE_PATH) {
         println!("{:?}", res);
-        tsp(res);
+        println!("Shortest round cost is {:?}", tsp(res));
     }
 }
