@@ -56,13 +56,16 @@ pub fn tsp(graph: Vec<(f32, f32)>) -> i32 {
 
     let index_of_universe = subsets_index_map.get(&(0..n).collect::<Vec<usize>>()).unwrap();
 
+    let final_trips = (0..n)
+        .map(|i| ((graph[i].0 - graph[0].0).powi(2) + (graph[i].1 - graph[0].1).powi(2)).sqrt())
+        .collect::<Vec<f32>>();
     let min = costs[*index_of_universe].clone()
         .into_iter()
         .enumerate()
-        .min_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap_or(Ordering::Equal))
+        .min_by(|(i_a, a), (i_b, b)| (a + final_trips[*i_a]).partial_cmp(&(b + final_trips[*i_b])).unwrap_or(Ordering::Equal))
         .unwrap_or_else(|| (0, f32::MAX));
     let c_ji = ((graph[min.0].0 - graph[0].0).powi(2) + (graph[min.0].1 - graph[0].1).powi(2)).sqrt();
-    println!("raw result: {}", (min.1 + c_ji));
+    println!("raw result: {} = {} + {}| from {}th node", (min.1 + c_ji), min.1, c_ji, min.0);
     (min.1 + c_ji).floor() as i32
 }
 
