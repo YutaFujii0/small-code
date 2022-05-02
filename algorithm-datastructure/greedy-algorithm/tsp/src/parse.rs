@@ -4,7 +4,7 @@ use std::path::Path;
 
 use super::error::ParseError;
 
-pub fn parse<T>(path: T) -> Result<Vec<(usize, f32, f32)>, Box<dyn std::error::Error>>
+pub fn parse<T>(path: T) -> Result<Vec<(usize, f64, f64)>, Box<dyn std::error::Error>>
 where T: AsRef<Path>
 {
     let mut ret = vec![];
@@ -15,8 +15,8 @@ where T: AsRef<Path>
             .collect::<Vec<&str>>();
         ret.push((
             rawdata[0].parse::<usize>().or(Err(ParseError))?,
-            rawdata[1].parse::<f32>().or(Err(ParseError))?,
-            rawdata[2].parse::<f32>().or(Err(ParseError))?
+            rawdata[1].parse::<f64>().or(Err(ParseError))?,
+            rawdata[2].parse::<f64>().or(Err(ParseError))?
         ))
     }
     Ok(ret)
