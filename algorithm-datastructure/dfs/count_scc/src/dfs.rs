@@ -2,16 +2,14 @@ use std::collections::HashMap;
 
 use super::node::*;
 
-// const MAX_NODE: usize = 9;
-const MAX_NODE: usize = 875714;
-
 pub fn dfs_loop_first(nodes: &Nodes) -> HashMap::<usize, usize> {
     let mut t: usize = 0;
     let mut exploreds = HashMap::<usize, bool>::new();
     let mut finishing_times = HashMap::<usize, usize>::new();
+    let index_max = nodes.keys().max().unwrap();
 
-    for i in 0..MAX_NODE {
-        let index = MAX_NODE - i;
+    for i in 0..*index_max {
+        let index = index_max - i;
         let explored = exploreds.entry(index).or_insert(false);
         if *explored == false {
             dfs(
@@ -30,9 +28,10 @@ pub fn dfs_loop_first(nodes: &Nodes) -> HashMap::<usize, usize> {
 pub fn dfs_loop_second(nodes: &Nodes, finishing_times: &HashMap::<usize, usize>) -> HashMap::<usize, usize> {
     let mut exploreds = HashMap::<usize, bool>::new();
     let mut leaders = HashMap::<usize, usize>::new();
+    let index_max = nodes.keys().max().unwrap();
 
-    for i in 0..MAX_NODE {
-        let index = finishing_times.get(&(MAX_NODE - i)).unwrap();
+    for i in 0..*index_max {
+        let index = finishing_times.get(&(index_max - i)).unwrap();
         let explored = exploreds.entry(*index).or_insert(false);
         if *explored == false {
             dfs_second(
