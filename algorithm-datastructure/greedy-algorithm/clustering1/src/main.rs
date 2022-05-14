@@ -2,19 +2,25 @@ mod clustering;
 mod error;
 mod parse;
 
+use std::env;
+use std::result::Result;
+use std::error::Error;
 use self::clustering::*;
 use self::parse::*;
 
-// const FILE_PATH: &str = "./dataset-sample.txt";
-const FILE_PATH: &str = "./dataset.txt";
-const K_CLUSTERS: usize = 4;
+const ERR_MSG: &str = "Usage: target/debug/clustering1 <dataset-path> <k_cluster_size>";
 
-fn main() {
+fn main() -> Result<(), Box<dyn Error>> {
     println!("Clustering!");
 
-    if let Ok(result) = parse(FILE_PATH) {
+    let path = env::args().nth(1).ok_or_else(|| ERR_MSG)?;
+    let k_clusters = env::args().nth(2)
+        .ok_or_else(|| ERR_MSG)?
+        .parse::<usize>()?;
+
+    if let Ok(result) = parse(path) {
         let graph = preprocess(result);
-        // println!("parsed! {:?}", graph);
-        let _ = cluster(graph, K_CLUSTERS);
+        let _ = cluster(graph, k_clusters);
     }
+    Ok(())
 }
