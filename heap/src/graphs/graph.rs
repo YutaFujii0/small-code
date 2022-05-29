@@ -8,7 +8,7 @@ pub trait Graph {
     type Edge;
     type EdgeNodes;
 
-    fn add_vertex(&self, vertex: Self::Vertex);
+    fn add_vertex(&mut self, vertex: Self::VertexValue);
 
     fn remove_vertex(&mut self, vertex_id: usize);
 

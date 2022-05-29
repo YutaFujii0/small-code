@@ -1,5 +1,12 @@
 use super::graph::Graph;
 
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Edge<T> {
+    pub left: usize,
+    pub right: usize,
+    pub weight: T,
+}
+
 /// Edge List representation of a graph.
 /// 
 /// This implementation simply stores edges in a vector.
@@ -19,13 +26,6 @@ use super::graph::Graph;
 /// 
 /// For each function, there is a note for the time complexity
 /// where n and m denotes # of nodes, # of edges respectively.
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct Edge<T> {
-    pub left: usize,
-    pub right: usize,
-    pub weight: T,
-}
-
 #[derive(Debug)]
 pub struct EdgeList<T> {
     edges: Vec<Edge<T>>,
@@ -51,7 +51,7 @@ impl<T> Graph for EdgeList<T> {
     /// 
     /// # Panics
     /// Always panics
-    fn add_vertex(&self, _vertex: Self::Vertex) {
+    fn add_vertex(&mut self, _vertex: Self::VertexValue) {
         unimplemented!();
     }
 
