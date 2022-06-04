@@ -27,7 +27,7 @@ where T: FromPrimitive + Clone + PartialEq
 ///
 /// ```
 /// use datastructures::graphs::adjacency_matrix::{AdjacencyMatrix};
-/// use datastructures::graphs::graph::Graph;
+/// use datastructures::graphs::Graph;
 /// 
 /// let adj_matrix = AdjacencyMatrix::<String, i32>::new();
 /// ```
@@ -71,7 +71,7 @@ where
     /// # Examples
     /// ```
     /// use datastructures::graphs::adjacency_matrix::{AdjacencyMatrix};
-    /// use crate::datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut adj_matrix = AdjacencyMatrix::<String, i32>::new();
     /// 
@@ -102,7 +102,7 @@ where
     /// # Examples
     /// ```
     /// use datastructures::graphs::adjacency_matrix::{AdjacencyMatrix};
-    /// use crate::datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut adj_matrix = AdjacencyMatrix::<String, i32>::new();
     /// 
@@ -133,7 +133,7 @@ where
     /// # Examples
     /// ```
     /// use datastructures::graphs::adjacency_matrix::{AdjacencyMatrix};
-    /// use crate::datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut adj_matrix = AdjacencyMatrix::<String, i32>::new();
     /// 
@@ -156,7 +156,7 @@ where
     /// # Examples
     /// ```
     /// use datastructures::graphs::adjacency_matrix::{AdjacencyMatrix};
-    /// use crate::datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut adj_matrix = AdjacencyMatrix::<String, i32>::new();
     /// 
@@ -194,7 +194,7 @@ where
     /// # Examples
     /// ```
     /// use datastructures::graphs::adjacency_matrix::{AdjacencyMatrix};
-    /// use crate::datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut adj_matrix = AdjacencyMatrix::<String, i32>::new();
     /// 
@@ -228,7 +228,7 @@ where
     /// # Examples
     /// ```
     /// use datastructures::graphs::adjacency_matrix::{Vertex, AdjacencyMatrix};
-    /// use crate::datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut adj_matrix = AdjacencyMatrix::<String, i32>::new();
     /// 

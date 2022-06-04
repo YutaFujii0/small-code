@@ -19,7 +19,7 @@ pub struct Edge<T> {
 ///
 /// ```
 /// use datastructures::graphs::edge_list::{EdgeList};
-/// use datastructures::graphs::graph::Graph;
+/// use datastructures::graphs::Graph;
 /// 
 /// let edge_list = EdgeList::<i32>::new();
 /// ```
@@ -63,7 +63,7 @@ impl<T> Graph for EdgeList<T> {
     /// # Examples
     /// ```
     /// use datastructures::graphs::edge_list::{Edge, EdgeList};
-    /// use datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut edge_list = EdgeList::<i32>::new();
     /// 
@@ -101,7 +101,7 @@ impl<T> Graph for EdgeList<T> {
     /// # Examples
     /// ```
     /// use datastructures::graphs::edge_list::{Edge, EdgeList};
-    /// use datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut edge_list = EdgeList::<i32>::new();
     /// 
@@ -125,7 +125,7 @@ impl<T> Graph for EdgeList<T> {
     /// # Examples
     /// ```
     /// use datastructures::graphs::edge_list::{Edge, EdgeList};
-    /// use datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut edge_list = EdgeList::<i32>::new();
     /// 
@@ -165,7 +165,7 @@ impl<T> Graph for EdgeList<T> {
     /// # Examples
     /// ```
     /// use datastructures::graphs::edge_list::{Edge, EdgeList};
-    /// use datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut edge_list = EdgeList::<i32>::new();
     /// 
@@ -194,7 +194,7 @@ impl<T> Graph for EdgeList<T> {
     /// # Examples
     /// ```
     /// use datastructures::graphs::edge_list::{Edge, EdgeList};
-    /// use datastructures::graphs::graph::Graph;
+    /// use datastructures::graphs::Graph;
     /// 
     /// let mut edge_list = EdgeList::<i32>::new();
     /// 
