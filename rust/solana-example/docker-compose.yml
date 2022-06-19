@@ -1,0 +1,28 @@
+services:
+  client:
+    build: .
+    platform: linux/amd64
+    ports:
+      - target: 8899
+        published: 8899
+        protocol: tcp
+      - target: 8900
+        published: 8900
+        protocol: tcp
+      - target: 8001
+        published: 8001
+        protocol: tcp
+      - target: 8901
+        published: 8901
+        protocol: tcp
+      - target: 8902
+        published: 8902
+        protocol: tcp
+      - target: 9900
+        published: 9900
+        protocol: tcp
+    volumes:
+      - /Users/yuta/.config/solana/id.json:/root/.config/solana/id.json
+      - ./dist/program:/app/dist/program
+      - .:/app
+    command: bash -c "npm run start"
