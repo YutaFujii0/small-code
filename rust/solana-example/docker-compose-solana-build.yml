@@ -1,7 +1,0 @@
-services:
-  backend:
-    build: .
-    platform: linux/amd64
-    volumes:
-      - .:/app
-    command: bash -c "npm run build:program-rust"
