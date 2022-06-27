@@ -1,0 +1,1 @@
+curl localhost:9200/movies/_search -H 'Content-Type: application/json' -d '{"query": {"match": { "values.title.keyword": {"query": "Money"}}}}' > /dev/null

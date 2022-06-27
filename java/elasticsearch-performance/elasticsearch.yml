@@ -1,0 +1,5 @@
+cluster.name: docker-cluster
+bootstrap.memory_lock: true
+xpack.security.enabled: false
+transport.host: 127.0.0.1
+network.host: 0.0.0.0
