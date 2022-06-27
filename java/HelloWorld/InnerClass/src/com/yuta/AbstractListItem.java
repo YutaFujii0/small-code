@@ -1,46 +1,29 @@
 package com.yuta;
 
 public abstract class AbstractListItem {
-    private AbstractListItem prev;
-    private AbstractListItem next;
-    private int value;
 
-    public AbstractListItem(int value) {
+    // prefer protected rather than private:
+    // enable subclasses in the same package to access
+    // cf) https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html
+    protected AbstractListItem prev = null;
+    protected AbstractListItem next = null;
+    protected Object value;
+
+    public AbstractListItem(Object value) {
         this.value = value;
     }
 
+    abstract AbstractListItem prev();
+    abstract AbstractListItem next();
+    abstract AbstractListItem setPrev(AbstractListItem prev);
+    abstract AbstractListItem setNext(AbstractListItem next);
+    abstract int compareTo(AbstractListItem another);
 
-    public AbstractListItem getPrev() {
-        return prev;
-    }
-
-    public void setPrev(AbstractListItem prev) {
-        this.prev = prev;
-    }
-
-    public AbstractListItem getNext() {
-        return next;
-    }
-
-    public void setNext(AbstractListItem next) {
-        this.next = next;
-    }
-
-    public int getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Object value) {
         this.value = value;
-    }
-
-    public int compareTo(AbstractListItem another) {
-        if (this.value == another.getValue()) {
-            return 0;
-        } else if (this.value > another.getValue()) {
-            return 1;
-        } else {
-            return -1;
-        }
     }
 }

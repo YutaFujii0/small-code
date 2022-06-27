@@ -12,68 +12,54 @@ public class MyLinkedList {
     }
 
     public void traverseNext() {
-        ListItem cur = root;
+        AbstractListItem cur = root;
         while (cur != null) {
             System.out.println(cur.getValue());
-            cur = cur.getNext();
+            cur = cur.next();
         }
     }
 
     public void traversePrev() {
-        ListItem cur = root;
+        AbstractListItem cur = root;
         while (cur != null) {
             System.out.println(cur.getValue());
-            cur = cur.getPrev();
+            cur = cur.prev();
         }
     }
 
-    public boolean add(ListItem listItem) {
-        if (root == null) {
-            this.root = listItem;
+    public boolean add(ListItem item) {
+        if (this.root == null) {
+            this.root = item;
             return true;
-        } else {
-            ListItem cur = root;
-            while (cur != null) {
-
-                switch (cur.compareTo(listItem)) {
-                    case 0:
-                        return false;
-                    case 1:
-                        if (cur.getPrev() == null) {
-                            cur.setPrev(listItem);
-                            listItem.setNext(cur);
-                            return true;
-                        } else if (cur.getPrev().compareTo(listItem) == -1) {
-                            ListItem prev = cur.getPrev();
-                            cur.setPrev(listItem);
-                            listItem.setNext(cur);
-                            listItem.setPrev(prev);
-                            prev.setNext(listItem);
-                            return true;
-                        } else {
-                            cur = cur.getPrev();
-                            break;
-                        }
-
-                    case -1:
-                        if (cur.getNext() == null) {
-                            cur.setNext(listItem);
-                            listItem.setPrev(cur);
-                            return true;
-                        } else if (cur.getNext().compareTo(listItem) == 1) {
-                            ListItem next = cur.getNext();
-                            cur.setNext(listItem);
-                            listItem.setPrev(cur);
-                            listItem.setPrev(next);
-                            next.setPrev(listItem);
-                            return true;
-                        } else {
-                            cur = cur.getNext();
-                            break;
-                        }
-                }
-            }
-            return false;
         }
+
+        AbstractListItem cur = this.root;
+        while (cur != null) {
+            int comp = cur.compareTo(item);
+            if (comp == 0) {
+                // item already exists.
+                return false;
+            } else if (comp < 0) {
+                // item is greater than cur
+                if (cur.next() == null) {
+                    cur.setNext(item).setPrev(cur);
+                    return true;
+                } else {
+                    cur = cur.next();
+                }
+            } else {
+                // cur.prev -> item -> cur  is the right order
+                // take care of the case where cur is root
+                if (cur.prev() == null) {
+                    this.root = item;
+                    item.setNext(cur).setPrev(cur);
+                } else {
+                    cur.prev().setNext(item).setPrev(cur.prev());
+                    item.setNext(cur).setPrev(item);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }
