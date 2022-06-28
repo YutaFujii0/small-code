@@ -23,5 +23,17 @@ public class Main {
         System.out.println(linkedList.add(item9));
         linkedList.traversePrev();
         linkedList.traverseNext();
+
+        // generics
+        FootballPlayer joe = new FootballPlayer("Joe");
+        BaseballPlayer pat = new BaseballPlayer("Pat");
+        SoccerPlayer beckham = new SoccerPlayer("Beckham");
+
+        Team<FootballPlayer> adelaideCrows = new Team<>("Adelaide Crows");
+        Team<BaseballPlayer> baseballTeam = new Team<>("Chicago Cubs");
+        Team<SoccerPlayer> liverpool = new Team<>("Liverpool");
+        adelaideCrows.addPlayer(joe);
+        baseballTeam.addPlayer(pat);
+        liverpool.addPlayer(beckham);
     }
 }
