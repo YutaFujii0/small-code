@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -8,10 +7,11 @@ public class Main {
 
     private static int getIntEAFP() {
         Scanner s = new Scanner(System.in);
-        try {
-            return s.nextInt();
-        } catch (InputMismatchException e) {
-            return 0;
-        }
+        return s.nextInt();
+//        try {
+//            return s.nextInt();
+//        } catch (InputMismatchException e) {
+//            return 0;
+//        }
     }
 }
