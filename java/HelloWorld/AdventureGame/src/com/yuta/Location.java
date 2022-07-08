@@ -1,12 +1,15 @@
 package com.yuta;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Location {
+public class Location implements Serializable {
     private final int locationID;
     private final String description;
     private final Map<String, Integer> exits;
+
+//    private long serialVersionUID = 1L;
 
     public Location(int locationID, String description) {
         this.locationID = locationID;

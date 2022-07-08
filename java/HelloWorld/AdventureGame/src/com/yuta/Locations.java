@@ -7,42 +7,59 @@ public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
-        try (DataOutputStream locFile = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+//        try (DataOutputStream locFile = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+//            for (Location location : locations.values()) {
+//                locFile.writeInt(location.getLocationID());
+//                locFile.writeUTF(location.getDescription());
+//                locFile.writeInt(location.getExits().size() - 1);
+//                for (String direction : location.getExits().keySet()) {
+//                    if (!direction.equalsIgnoreCase("Q")) {
+//                        locFile.writeUTF(direction);
+//                        locFile.writeInt(location.getExits().get(direction));
+//                    }
+//                }
+//            }
+//        }
+        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
             for (Location location : locations.values()) {
-                locFile.writeInt(location.getLocationID());
-                locFile.writeUTF(location.getDescription());
-                locFile.writeInt(location.getExits().size() - 1);
-                for (String direction : location.getExits().keySet()) {
-                    if (!direction.equalsIgnoreCase("Q")) {
-                        locFile.writeUTF(direction);
-                        locFile.writeInt(location.getExits().get(direction));
-                    }
-                }
+                locFile.writeObject(location);
             }
         }
     }
 
     static {
-        try (DataInputStream locFile = new DataInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+//        try (DataInputStream locFile = new DataInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+        try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
             boolean eof = false;
             while (!eof) {
                 try {
-                    int loc = locFile.readInt();
-                    String description = locFile.readUTF();
-                    Location location = new Location(loc, description);
-                    int num = locFile.readInt();
-                    for (int i=0; i<num; i++) {
-                        String direction = locFile.readUTF();
-                        int dest = locFile.readInt();
-                        location.addExit(direction, dest);
-                    }
-                    locations.put(loc, location);
+                    Location location = (Location) locFile.readObject();
+                    System.out.println("imported location " + location.getLocationID());
+                    locations.put(location.getLocationID(), location);
                 } catch (EOFException e) {
                     eof = true;
                 }
             }
+//            while (!eof) {
+//                try {
+//                    int loc = locFile.readInt();
+//                    String description = locFile.readUTF();
+//                    Location location = new Location(loc, description);
+//                    int num = locFile.readInt();
+//                    for (int i=0; i<num; i++) {
+//                        String direction = locFile.readUTF();
+//                        int dest = locFile.readInt();
+//                        location.addExit(direction, dest);
+//                    }
+//                    locations.put(loc, location);
+//                } catch (EOFException e) {
+//                    eof = true;
+//                }
+//            }
         } catch (IOException e) {
             System.out.println("IO Exception");
+        } catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFound exception");
         }
     }
 
