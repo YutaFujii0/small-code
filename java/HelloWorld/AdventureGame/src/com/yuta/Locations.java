@@ -1,39 +1,87 @@
 package com.yuta;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new HashMap<>();
 
-    static {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new FileReader("locations.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (scanner != null) {
-                scanner.close();
+    public static void main(String[] args) throws IOException {
+        try (DataOutputStream locFile = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+            for (Location location : locations.values()) {
+                locFile.writeInt(location.getLocationID());
+                locFile.writeUTF(location.getDescription());
+                locFile.writeInt(location.getExits().size() - 1);
+                for (String direction : location.getExits().keySet()) {
+                    if (!direction.equalsIgnoreCase("Q")) {
+                        locFile.writeUTF(direction);
+                        locFile.writeInt(location.getExits().get(direction));
+                    }
+                }
             }
         }
-
-//        locations.get(1).addExit("W", 2);
-//        locations.get(1).addExit("E", 3);
-//        locations.get(1).addExit("S", 4);
-//        locations.get(1).addExit("N", 5);
-//
-//        locations.get(2).addExit("N", 5);
-//
-//        locations.get(3).addExit("W", 1);
-//
-//        locations.get(4).addExit("N", 1);
-//        locations.get(4).addExit("W", 2);
-//
-//        locations.get(5).addExit("S", 1);
-//        locations.get(5).addExit("W", 2);
     }
+
+    static {
+        try (DataInputStream locFile = new DataInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+            boolean eof = false;
+            while (!eof) {
+                try {
+                    int loc = locFile.readInt();
+                    String description = locFile.readUTF();
+                    Location location = new Location(loc, description);
+                    int num = locFile.readInt();
+                    for (int i=0; i<num; i++) {
+                        String direction = locFile.readUTF();
+                        int dest = locFile.readInt();
+                        location.addExit(direction, dest);
+                    }
+                    locations.put(loc, location);
+                } catch (EOFException e) {
+                    eof = true;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("IO Exception");
+        }
+    }
+
+//    static {
+////         scanner = null;
+//        try (Scanner scanner = new Scanner(new FileReader("locations.txt"));) {
+//
+//            scanner.useDelimiter(",");
+//            while (scanner.hasNextLine()) {
+//                int loc = scanner.nextInt();
+//                scanner.skip(scanner.delimiter());
+//                String description = scanner.nextLine();
+//                System.out.println("Imported loc: " + loc + ": " + description);
+//                locations.put(loc, new Location(loc, description));
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // try with resources `try ()` automatically handle this
+////        } finally {
+////            if (scanner != null) {
+////                scanner.close();
+////            }
+////        }
+//
+//        try (BufferedReader dirFile = new BufferedReader(new FileReader("directions.txt"))) {
+//            String input;
+//            while ((input = dirFile.readLine()) != null) {
+//                String data[] = input.split(",");
+//                int loc = Integer.parseInt(data[0]);
+//                int destination = Integer.parseInt(data[2]);
+//                Location location = locations.get(loc);
+//                location.addExit(data[1], destination);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public int size() {

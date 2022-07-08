@@ -1,5 +1,5 @@
 FROM amazoncorretto:11
 #VOLUME /tmp
 WORKDIR /app
-COPY src /app
-CMD bash -c "javac /app/com/yuta/Main.java && java com.yuta/Main"
+#COPY . /app
+CMD bash -c "cd /app/src && javac com/yuta/Main.java && java com.yuta.Main"
