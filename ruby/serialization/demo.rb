@@ -1,3 +1,5 @@
+# ref: https://www.cosmiclearn.com/ruby/serialization.php
+
 class Employee
     def initialize(empId, empName)
         @empId = empId
