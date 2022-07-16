@@ -18,7 +18,6 @@ public class Main {
             // or allocate & put (don't forget to flip())
             ByteBuffer buffer = ByteBuffer.allocate(outputBytes.length + 10);
             buffer.put(outputBytes);
-            buffer.clear();
 //            int pos = buffer.position();
 //            buffer.position(pos + 1);
             buffer.flip();
@@ -44,7 +43,7 @@ public class Main {
             outputBytes[0] = 'a';
             outputBytes[1] = 'b';
             buffer.flip();
-            
+
             ByteBuffer buffer2 = ByteBuffer.allocate(outputBytes.length + 10);
             buffer2.put("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".getBytes());
             buffer2.clear();
@@ -56,7 +55,7 @@ public class Main {
 
             // prefer to use hasArray()
             if (buffer.hasArray()) {
-                System.out.println("byte buffer = " + new String(buffer2.array()));
+                System.out.println("byte buffer = " + new String(buffer.array()));
             }
 
 
