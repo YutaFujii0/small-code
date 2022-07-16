@@ -20,9 +20,44 @@ public class Locations implements Map<Integer, Location> {
 //                }
 //            }
 //        }
-        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
-            for (Location location : locations.values()) {
-                locFile.writeObject(location);
+//        Map<String, Integer> exits = new HashMap<>();
+//        Location location = new Location(0,"You are sitting in front of a computer learning Java", exits);
+//        locations.put(location.getLocationID(), location);
+//
+//        exits = new HashMap<>();
+//        exits.put("W",2);
+//        exits.put("E",3);
+//        exits.put("S",4);
+//        exits.put("N",5);
+//        location = new Location(1,"You are standing at the end of a road before a small brick building", exits);
+//        locations.put(location.getLocationID(), location);
+//
+//        exits = new HashMap<>();
+//        exits.put("N",5);
+//        location = new Location(2,"You are at the top of a hill", exits);
+//        locations.put(location.getLocationID(), location);
+//
+//        exits = new HashMap<>();
+//        exits.put("W",1);
+//        location = new Location(3,"You are inside a building, a well house for a small spring", exits);
+//        locations.put(location.getLocationID(), location);
+//
+//        exits = new HashMap<>();
+//        exits.put("N",1);
+//        exits.put("W",2);
+//        location = new Location(4,"You are in a valley beside a stream", exits);
+//        locations.put(location.getLocationID(), location);
+//
+//        exits = new HashMap<>();
+//        exits.put("S",1);
+//        exits.put("W",2);
+//        location = new Location(5,"You are in the forest", exits);
+//        locations.put(location.getLocationID(), location);
+//
+
+        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations2.dat")))) {
+            for (Location loc : locations.values()) {
+                locFile.writeObject(loc);
             }
         }
     }
