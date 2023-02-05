@@ -22,3 +22,8 @@ for element in elements
 
 check if assignment
 if head is null, asign node that holds value of element
+
+Complexity:
+- time complexity: depends on input, but in the worst case (linked list) it will n * O(n)
+  if the input represents a balanced tree: it will be n * O(logn)
+- space complextiy: O(n) for vector, deque, O(1) for iteration 
