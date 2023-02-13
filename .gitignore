@@ -6,4 +6,4 @@
 **/*.out
 **/*.o
 **/.gradle/
-**/java/**/.build
+**/java/**/build
