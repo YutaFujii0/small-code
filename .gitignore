@@ -7,3 +7,5 @@
 **/*.o
 **/.gradle/
 **/java/**/build
+**/.idea
+**/*.iml
