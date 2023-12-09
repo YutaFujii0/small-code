@@ -10,3 +10,6 @@
 **/.idea
 **/*.iml
 **/.env
+**/chromedriver
+**/extension/config.js
+**/secret.ts

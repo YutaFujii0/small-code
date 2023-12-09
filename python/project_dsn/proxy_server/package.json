@@ -1,0 +1,20 @@
+{
+  "name": "proxy_server",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run index.ts"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "volta": {
+    "node": "14.21.3"
+  },
+  "dependencies": {
+    "uuid": "^9.0.1"
+  }
+}

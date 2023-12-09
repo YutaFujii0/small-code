@@ -1,0 +1,29 @@
+const config = {
+    intervalMillisec: 1000,
+    webhook: '<PLEASE FILL IN THIS>',
+    loadingSelector: '#modalDialog > div.loading04',
+    atLeastOneSelector: 'div.ecRoomTitleBar.title > dl > dt.roomPriceText:not([style*="display: none;"])',
+    noRoomSelector: '#content > div.jqmContent.pb00.hotelContent.dateSearchDefaultCont > div.section01.noResultView:not([style*="display: none;"])',
+    target: [
+        {
+            selector: '#section_HODHMBOQ0004N td.js-reserveButton.reserveBtn.btn:not([style*="display: none;"])',
+            roomName: 'ピアバル'
+        },
+        {
+            selector: '#section_HODHMBKT0004N td.js-reserveButton.reserveBtn.btn:not([style*="display: none;"])',
+            roomName: 'ハババル'
+        },
+        {
+            selector: '#section_HODHMBKQ0004N td.js-reserveButton.reserveBtn.btn:not([style*="display: none;"])',
+            roomName: 'ハババル4'
+        },
+        {
+            selector: '#section_HODHMTKD0004N td.js-reserveButton.reserveBtn.btn:not([style*="display: none;"])',
+            roomName: 'ハバテラ'
+        },
+        {
+            selector: '#section_HODHMTGD0004N td.js-reserveButton.reserveBtn.btn:not([style*="display: none;"])',
+            roomName: 'ハバグラ'
+        },
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Element Finder",
+    "version": "1.0",
+    "description": "Find an element and play a sound on a specific Tokyo Disney Resort page",
+    "permissions": ["scripting"],
+    "host_permissions": [
+      "https://reserve.tokyodisneyresort.jp/hotel/list/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://reserve.tokyodisneyresort.jp/hotel/list/*"],
+        "js": ["config.js", "content.js"]
+      }
+    ]
+  }
+  
