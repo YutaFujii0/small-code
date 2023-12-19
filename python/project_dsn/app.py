@@ -5,14 +5,18 @@ import time
 
 TARGET_DATE = '20231226'
 URL = f'https://reserve.tokyodisneyresort.jp/hotel/list/?showWay=&roomsNum=1&adultNum=2&childNum=0&stayingDays=1&useDate={TARGET_DATE}&cpListStr=&childAgeBedInform=&searchHotelCD=DHM&searchHotelDiv=&hotelName=&searchHotelName=&searchLayer=&searchRoomName=&hotelSearchDetail=true&checkPointStr=&displayType=data-hotel&reservationStatus=1'
-NUMBER_OF_TABS = 30
+NUMBER_OF_TABS = 3
 
 # Path to your ChromeDriver
 chrome_driver_path = './chromedriver'
-profile_path = '/Users/yuta/Library/Application\ Support/Google/Chrome/Profile\ 1'
+user_data_dir = '/Users/yuta/Library/Application Support/Google/Chrome'
+profile_dir = 'Profile 1'
 
 options = Options()
-options.add_argument(f'user-data-dir={profile_path}')
+options.add_argument(f'user-data-dir={user_data_dir}')
+options.add_argument(f'profile-directory={profile_dir}')
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_experimental_option('useAutomationExtension', False)
 
 # Set up the Chrome WebDriver with Service
 service = Service(executable_path=chrome_driver_path)
@@ -26,7 +30,7 @@ time.sleep(1)  # Waiting 1 second before opening the next tab
 for _ in range(NUMBER_OF_TABS - 1):
     driver.execute_script("window.open('');")  # Open a new tab
     driver.switch_to.window(driver.window_handles[-1])  # Switch to the new tab
-    driver.get('your_url')
+    driver.get(URL)
     time.sleep(1)
 
 # Function to refresh a specific tab
